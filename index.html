@@ -54,29 +54,35 @@
             margin: 0 auto 25px;
         }
 
-        /* Kotak Pencarian */
+        /* Kotak Pencarian Responsif */
         .search-wrapper {
-            max-width: 540px;
+            max-width: 560px;
             margin: 0 auto;
             position: relative;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .search-wrapper:focus-within {
+            transform: scale(1.02);
         }
 
         .search-input {
             width: 100%;
-            padding: 15px 20px 15px 48px;
+            padding: 16px 48px 16px 50px;
             border-radius: 50px;
-            border: none;
+            border: 2px solid transparent;
             font-family: inherit;
             font-size: 0.95rem;
             color: var(--text-main);
             background-color: #ffffff;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
             outline: none;
-            transition: box-shadow 0.2s ease;
+            transition: all 0.25s ease;
         }
 
         .search-input:focus {
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.35);
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.25), 0 15px 30px -5px rgba(0, 0, 0, 0.2);
         }
 
         .search-icon {
@@ -85,8 +91,51 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             pointer-events: none;
+            transition: transform 0.25s ease;
+        }
+
+        .search-wrapper:focus-within .search-icon {
+            transform: translateY(-50%) scale(1.15);
+        }
+
+        /* Tombol Clear Search */
+        .clear-btn {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%) scale(0.8);
+            background: #e2e8f0;
+            color: #475569;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .clear-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%) scale(1);
+        }
+
+        .clear-btn:hover {
+            background: #cbd5e1;
+            color: #0f172a;
+        }
+
+        .clear-btn:active {
+            transform: translateY(-50%) scale(0.9);
         }
 
         /* Container Utama */
@@ -96,7 +145,7 @@
             padding: 0 20px;
         }
 
-        /* Tombol Filter Kategori */
+        /* Tombol Filter Kategori Interaktif */
         .filter-bar {
             display: flex;
             flex-wrap: wrap;
@@ -104,34 +153,76 @@
             gap: 10px;
             background: var(--card-bg);
             padding: 14px 18px;
-            border-radius: 16px;
+            border-radius: 18px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 6px 16px -4px rgba(0, 0, 0, 0.07);
             border: 1px solid var(--border-color);
         }
 
         .filter-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             background-color: #f1f5f9;
             color: var(--text-muted);
             border: 1px solid transparent;
-            padding: 8px 16px;
+            padding: 9px 16px;
             border-radius: 50px;
             font-family: inherit;
             font-size: 0.875rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            user-select: none;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .filter-btn:hover {
             background-color: #e2e8f0;
             color: var(--text-main);
+            transform: translateY(-2px);
+        }
+
+        /* Efek membal saat tombol diklik */
+        .filter-btn:active {
+            transform: scale(0.93);
         }
 
         .filter-btn.active {
             background-color: var(--primary);
             color: #ffffff;
-            box-shadow: 0 4px 10px -2px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 6px 14px -3px rgba(37, 99, 235, 0.45);
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active:active {
+            transform: scale(0.94);
+        }
+
+        .count-badge {
+            background-color: rgba(0, 0, 0, 0.08);
+            color: inherit;
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 20px;
+            font-weight: 700;
+            transition: background-color 0.2s ease;
+        }
+
+        .filter-btn.active .count-badge {
+            background-color: rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+        }
+
+        /* Animasi Muncul Kartu & Kategori */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         /* Bagian Kategori */
@@ -142,6 +233,7 @@
             margin-bottom: 30px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--border-color);
+            animation: fadeSlideUp 0.3s ease forwards;
         }
 
         .category-header {
@@ -179,13 +271,18 @@
             padding: 20px;
             text-decoration: none;
             color: inherit;
-            transition: all 0.25s ease;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: fadeSlideUp 0.3s ease forwards;
         }
 
         .card:hover {
             transform: translateY(-4px);
             border-color: var(--primary);
-            box-shadow: 0 12px 20px -8px rgba(37, 99, 235, 0.15);
+            box-shadow: 0 12px 20px -8px rgba(37, 99, 235, 0.18);
+        }
+
+        .card:active {
+            transform: scale(0.98);
         }
 
         .card-tag {
@@ -202,6 +299,14 @@
             font-weight: 600;
             color: var(--text-main);
             margin-bottom: 16px;
+        }
+
+        /* Sorotan teks hasil pencarian */
+        mark.highlight {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 0 3px;
+            border-radius: 4px;
         }
 
         .card-footer {
@@ -225,89 +330,21 @@
             display: none;
             text-align: center;
             background: white;
-            padding: 40px 20px;
+            padding: 45px 20px;
             border-radius: 16px;
             border: 1px solid var(--border-color);
             color: var(--text-muted);
+            animation: fadeSlideUp 0.3s ease forwards;
         }
 
-        footer {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            padding-bottom: 30px;
-        }
-
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.5rem; }
-            .category-section { padding: 18px; }
-            .filter-bar { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
-            .filter-btn { white-space: nowrap; }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>Portal Media Pembelajaran</h1>
-        <p>Pilih kategori mata pelajaran atau cari materi interaktif di bawah ini untuk mulai belajar.</p>
-        
-        <div class="search-wrapper">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" class="search-input" placeholder="Cari judul materi, pertemuan, atau mata pelajaran...">
-        </div>
-    </header>
-
-    <div class="container">
-
-        <!-- TOMBOL FILTER KATEGORI -->
-        <div class="filter-bar">
-            <button class="filter-btn active" data-filter="all">Semua Materi</button>
-            <button class="filter-btn" data-filter="sarpras">📁 OTK Sarpras</button>
-            <button class="filter-btn" data-filter="keuangan">💼 Administrasi Keuangan</button>
-            <button class="filter-btn" data-filter="dashboard">📊 Evaluasi & Dashboard</button>
-        </div>
-
-        <!-- KATEGORI 1: OTK SARPRAS -->
-        <section class="category-section" data-category="sarpras">
-            <div class="category-header">
-                <span class="category-badge">📁 OTK Sarana & Prasarana</span>
-            </div>
-            <div class="card-grid">
-                <a href="Media_Interaktif_Pertemuan1_OTK_Sarpras.html" class="card">
-                    <div>
-                        <span class="card-tag">Pertemuan 1</span>
-                        <div class="card-title">Media Interaktif OTK Sarpras</div>
-                    </div>
-                    <div class="card-footer">Buka Materi <span>&rarr;</span></div>
-                </a>
-
-                <a href="Media_Interaktif_Pertemuan2_OTK_Sarpras.html" class="card">
-                    <div>
-                        <span class="card-tag">Pertemuan 2</span>
-                        <div class="card-title">Media Interaktif OTK Sarpras</div>
-                    </div>
-                    <div class="card-footer">Buka Materi <span>&rarr;</span></div>
-                </a>
-
-                <a href="Media_Interaktif_Pertemuan3_OTK_Sarpras.html" class="card">
-                    <div>
-                        <span class="card-tag">Pertemuan 3</span>
-                        <div class="card-title">Media Interaktif OTK Sarpras</div>
-                    </div>
-                    <div class="card-footer">Buka Materi <span>&rarr;</span></div>
-                </a>
-
-                <a href="Media_Interaktif_Pertemuan4_OTK_Sarpras.html" class="card">
-                    <div>
-                        <span class="card-tag">Pertemuan 4</span>
-                        <div class="card-title">Media Interaktif OTK Sarpras</div>
-                    </div>
-                    <div class="card-footer">Buka Materi <span>&rarr;</span></div>
-                </a>
-            </div>
-        </section>
-
-        <!-- KATEGORI 2: ADMINISTRASI KEUANGAN -->
-        <section class="category-section" data-category="keuangan">
-            <div class="category-header">
+        .reset-search-btn {
+            margin-top: 16px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
