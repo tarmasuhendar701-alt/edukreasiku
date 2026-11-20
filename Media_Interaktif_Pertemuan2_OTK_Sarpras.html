@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Pembelajaran Interaktif — OTK Sarpras XI MPLB (Pertemuan 2)</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --teal: #0f766e;
+      --teal-soft: #ccfbf1;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --purple: #6d28d9;
+      --purple-soft: #ede9fe;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0f766e 100%);
+      color: #fff;
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.22);
+    }
+    .header-top {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.3px; }
+    .brand p { font-size: 0.8rem; color: #cbd5e1; }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Navigation Stepper */
+    nav.stepper {
+      max-width: 1200px;
+      margin: 18px auto 0;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .step-btn {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .step-btn span { display: block; font-size: 0.7rem; font-weight: 500; margin-top: 2px; }
+    .step-btn:hover { border-color: var(--primary-light); color: var(--primary); }
+    .step-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
+    }
+    .step-btn.active span { color: #dbeafe; }
+
+    /* Container & Cards */
+    main { max-width: 1200px; margin: 18px auto 40px; padding: 0 16px; }
+    .section-panel { display: none; animation: fadeIn 0.3s ease; }
+    .section-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 18px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+    .card-title { font-size: 1.12rem; font-weight: 700; color: var(--primary); }
+    .pill { padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; }
+    .pill-mindful { background: #e0e7ff; color: #1e40af; }
+    .pill-meaningful { background: var(--teal-soft); color: var(--teal); }
+    .pill-joyful { background: var(--amber-soft); color: var(--amber); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    @media (max-width: 900px) {
+      nav.stepper { grid-template-columns: 1fr 1fr; }
+      .grid-2, .grid-5 { grid-template-columns: 1fr; }
+    }
+
+    /* Buttons */
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn:hover { background: #1d4ed8; }
+    .btn-teal { background: var(--teal); }
+    .btn-teal:hover { background: #115e59; }
+    .btn-amber { background: var(--amber); }
+    .btn-amber:hover { background: #b45309; }
+    .btn-outline { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); }
+    .btn-outline:hover { background: #eff6ff; }
+
+    /* Mood Check-in */
+    .mood-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+    .mood-btn {
+      flex: 1;
+      min-width: 110px;
+      padding: 10px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      background: #f8fafc;
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .mood-btn:hover, .mood-btn.selected { border-color: var(--teal); background: #f0fdfa; color: var(--teal); }
+
+    /* Rapid Visual Sorting Game */
+    .sort-stage {
+      background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 100%);
+      border: 2px solid #93c5fd;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+    }
+    .item-showcase {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px;
+      max-width: 520px;
+      margin: 12px auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+    }
+    .item-icon { font-size: 2.6rem; margin-bottom: 6px; }
+    .item-name { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
+    .item-desc { font-size: 0.84rem; color: var(--muted); margin-top: 4px; }
+    .sort-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 14px; }
+
+    /* 5 Station Cards */
+    .pos-card {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 14px;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: 0.2s;
+      text-align: center;
+    }
+    .pos-card:hover, .pos-card.active {
+      border-color: var(--primary);
+      background: #eff6ff;
+      box-shadow: 0 4px 10px rgba(30, 58, 138, 0.12);
+    }
+    .pos-card .pos-num {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+    .pos-detail-box {
+      margin-top: 16px;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-left: 5px solid var(--primary);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    /* Asset Lifecycle & Financial Impact */
+    .sim-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .lifecycle-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .lc-node {
+      background: #fff;
+      border: 1.5px solid var(--teal);
+      color: var(--teal);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* LKPD Table */
+    table.lkpd-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    table.lkpd-table th {
+      background: var(--primary);
+      color: #fff;
+      text-align: left;
+      padding: 9px 10px;
+      font-size: 0.82rem;
+    }
+    table.lkpd-table td {
+      border: 1px solid #cbd5e1;
+      padding: 8px;
+      vertical-align: top;
+      font-size: 0.83rem;
+    }
+    input[type="text"], select, textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 7px 8px;
+      font-size: 0.83rem;
+      background: #fff;
+    }
+    input[type="text"]:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      background: #f8fafc;
+    }
+
+    /* Quiz */
+    .quiz-item { margin-bottom: 14px; padding: 14px; border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc; }
+    .quiz-item p { font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+    .quiz-opt {
+      display: block;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .quiz-opt:hover { background: #eff6ff; border-color: var(--primary-light); }
+    .feedback { margin-top: 8px; font-size: 0.82rem; font-weight: 600; display: none; padding: 8px 10px; border-radius: 6px; }
+    .feedback.ok { background: #dcfce7; color: #166534; display: block; }
+    .feedback.no { background: #fee2e2; color: #991b1b; display: block; }
+
+    .nav-footer { display: flex; justify-content: space-between; margin-top: 16px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="brand">
+      <h1>OTK SARANA & PRASARANA — PERTEMUAN 2</h1>
+      <p>Klasifikasi & Karakteristik Fasilitas Fisik Sarpras Kantor • SMK IPTEK AL-IKHWAN • Kelas XI MPLB</p>
+    </div>
+    <div class="badges">
+      <span class="badge">Alokasi: 4 × 45 Menit</span>
+      <span class="badge">Model: Inquiry Learning</span>
+      <span class="badge">Guru: Tarma Suhendar, S.Kom</span>
+    </div>
+  </div>
+</header>
+
+<nav class="stepper" role="tablist">
+  <button class="step-btn active" onclick="goTab(0)">1. Pendahuluan<span>Mood & Kuis Kilat Visual (25')</span></button>
+  <button class="step-btn" onclick="goTab(1)">2. Eksplorasi 5 Pos<span>Taksonomi Fasilitas Kantor</span></button>
+  <button class="step-btn" onclick="goTab(2)">3. Analisis Aset<span>Siklus Hidup & Dampak Biaya</span></button>
+  <button class="step-btn" onclick="goTab(3)">4. LKPD Digital 2<span>Matriks Identifikasi 20 Objek</span></button>
+  <button class="step-btn" onclick="goTab(4)">5. Evaluasi & Penutup<span>Uji Konsep & Info Pertemuan 3</span></button>
+</nav>
+
+<main>
+  <!-- ==================== TAB 1: PENDAHULUAN & KUIS KILAT VISUAL ==================== -->
+  <section class="section-panel active" id="tab-0">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Orientasi, Kesepakatan Kelas & Cek Suasana Hati</h2>
+        <span class="pill pill-mindful">Mindful & Joyful Opening</span>
+      </div>
+      <p style="font-size:0.9rem; margin-bottom:8px;">Selamat datang di <strong>Pertemuan Ke-2</strong>! Hari ini kita akan membedah bagaimana staf administrasi perkantoran mengklasifikasikan ratusan jenis barang kantor agar tertib secara administrasi pengadaan, pencatatan aset, maupun pelaporan keuangan.</p>
+      <div class="mood-row">
+        <div class="mood-btn" onclick="selectMood(this, 'Semangat siap praktik eksplorasi di Lab MPLB!')">🚀 Siap Eksplorasi</div>
+        <div class="mood-btn" onclick="selectMood(this, 'Fokus dan teliti mengklasifikasikan aset kantor.')">🧐 Fokus & Teliti</div>
+        <div class="mood-btn" onclick="selectMood(this, 'Penasaran membedakan mesin kantor vs perabot modern.')">💡 Penasaran</div>
+        <div class="mood-btn" onclick="selectMood(this, 'Mari tarik napas sejenak agar kembali segar dan siap belajar!')">🌿 Butuh Penyegaran</div>
+      </div>
+      <p id="moodFeedback" style="font-size:0.85rem; font-weight:600; color:#0f766e; margin-top:4px;"></p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Apersepsi Mendalam: Kuis Kilat Visual Pemilahan Sarpras</h2>
+        <span class="pill pill-joyful">Game Klasifikasi Cepat (8 Objek)</span>
+      </div>
+      <p style="font-size:0.88rem; margin-bottom:12px;">Uji ketajaman naluri manajemen perkantoran Anda! Tentukan apakah objek yang tampil termasuk <strong>Barang Habis Pakai</strong> atau <strong>Barang Tidak Habis Pakai</strong> (Perabot / Mesin / Komunikasi):</p>
+
+      <div class="sort-stage">
+        <div style="display:flex; justify-content:space-between; font-size:0.82rem; font-weight:700; color:#1e3a8a;">
+          <span id="sortProgress">Objek 1 dari 8</span>
+          <span id="sortScore">Skor Kilat: 0</span>
+        </div>
+
+        <div class="item-showcase" id="sortCard">
+          <div class="item-icon" id="sortIcon">📄</div>
+          <div class="item-name" id="sortName">Kertas HVS A4 80 Gram (1 Rim)</div>
+          <div class="item-desc" id="sortDesc">Digunakan untuk mencetak surat resmi dan laporan harian kantor.</div>
+        </div>
+
+        <div class="sort-actions">
+          <button class="btn btn-amber" onclick="answerSort('habis')">📦 Barang Habis Pakai (ATK/Bahan)</button>
+          <button class="btn" onclick="answerSort('perabot')">🪑 Tidak Habis Pakai — Perabot</button>
+          <button class="btn btn-teal" onclick="answerSort('mesin')">🖨️ Tidak Habis Pakai — Mesin/Komunikasi</button>
+        </div>
+
+        <p id="sortFeedback" style="margin-top:12px; font-size:0.88rem; font-weight:700; min-height:24px;"></p>
+        <button class="btn btn-outline" id="nextSortBtn" style="margin-top:8px; display:none;" onclick="nextSortItem()">Objek Berikutnya →</button>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <span></span>
+      <button class="btn" onclick="goTab(1)">Lanjut ke Tahap 2: Eksplorasi 5 Pos Lab →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 2: EKSPLORASI 5 POS SARPRAS ==================== -->
+  <section class="section-panel" id="tab-1">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Tahap 1 & 2 Inquiry: Eksplorasi 5 Pos Sarana Prasarana Lab MPLB</h2>
+        <span class="pill pill-mindful">Memahami (Mindful)</span>
+      </div>
+      <p style="font-size:0.9rem; margin-bottom:14px;">Klik setiap <strong>Pos Mini-Eksplorasi</strong> di bawah ini sebelum kelompok Anda melakukan observasi fisik ke 5 pos di Laboratorium MPLB:</p>
+
+      <div class="grid-5">
+        <div class="pos-card active" id="pos-0" onclick="showPos(0)">
+          <span class="pos-num">POS 1</span>
+          <div style="font-size:1.6rem;">📎</div>
+          <strong style="font-size:0.85rem;">Perlengkapan & ATK</strong>
+        </div>
+        <div class="pos-card" id="pos-1" onclick="showPos(1)">
+          <span class="pos-num">POS 2</span>
+          <div style="font-size:1.6rem;">🪑</div>
+          <strong style="font-size:0.85rem;">Perabot Kantor</strong>
+        </div>
+        <div class="pos-card" id="pos-2" onclick="showPos(2)">
+          <span class="pos-num">POS 3</span>
+          <div style="font-size:1.6rem;">📠</div>
+          <strong style="font-size:0.85rem;">Mesin Kantor</strong>
+        </div>
+        <div class="pos-card" id="pos-3" onclick="showPos(3)">
+          <span class="pos-num">POS 4</span>
+          <div style="font-size:1.6rem;">📞</div>
+          <strong style="font-size:0.85rem;">Pesawat Komunikasi</strong>
+        </div>
+        <div class="pos-card" id="pos-4" onclick="showPos(4)">
+          <span class="pos-num">POS 5</span>
+          <div style="font-size:1.6rem;">🌿</div>
+          <strong style="font-size:0.85rem;">Interior & Tata Ruang</strong>
+        </div>
+      </div>
+
+      <div class="pos-detail-box" id="posDetailBox"></div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(0)">← Sebelumnya</button>
+      <button class="btn" onclick="goTab(2)">Lanjut ke Tahap 3: Analisis Dampak Finansial →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 3: ANALISIS ASET & SIKLUS HIDUP ==================== -->
+  <section class="section-panel" id="tab-2">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Tahap 4 & 5 Inquiry: Pembuktian & Dampak Finansial Klasifikasi Aset</h2>
+        <span class="pill pill-meaningful">Mengaplikasi & Generalisasi</span>
+      </div>
+      <p style="font-size:0.9rem; margin-bottom:14px;">Mengapa staf MPLB wajib membedakan <strong>Barang Habis Pakai</strong> vs <strong>Barang Tidak Habis Pakai</strong>? Pilih simulasi kasus di bawah untuk melihat dampaknya pada akuntansi dan tata kelola organisasi:</p>
+
+      <div class="grid-2">
+        <div class="sim-box">
+          <h3 style="font-size:0.98rem; color:#d97706; margin-bottom:6px;">📦 Jalur 1: Barang Habis Pakai (Consumables)</h3>
+          <p style="font-size:0.85rem;">Benda yang wujud/fungsinya habis atau berubah dalam satu kali atau jangka waktu pemakaian singkat (&lt; 1 tahun) dan nilai satuannya relatif kecil.</p>
+          <ul style="padding-left:18px; font-size:0.84rem; margin-top:8px;">
+            <li><strong>Contoh:</strong> Kertas HVS, tinta toner, map snelhecter, baterai, isi staples, spidol.</li>
+            <li><strong>Perlakuan Administrasi:</strong> Dicatat di <em>Kartu Persediaan / Kartu Gudang (Bin Card)</em> dengan metode FIFO/FEFO.</li>
+            <li><strong>Dampak Finansial:</strong> Langsung dicatat sebagai <strong>Biaya/Beban Operasional (OPEX)</strong> pada periode berjalan dan <strong>tidak disusutkan</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="sim-box">
+          <h3 style="font-size:0.98rem; color:#1e3a8a; margin-bottom:6px;">🏢 Jalur 2: Barang Tidak Habis Pakai (Durable Assets)</h3>
+          <p style="font-size:0.85rem;">Benda yang dapat digunakan berulang kali dalam jangka waktu lama (&gt; 1 tahun) serta membutuhkan pemeliharaan berkala.</p>
+          <ul style="padding-left:18px; font-size:0.84rem; margin-top:8px;">
+            <li><strong>Contoh:</strong> <em>Ergonomic chair</em>, <em>scanner ADF</em>, <em>paper shredder</em>, <em>IP Phone</em>, <em>filing cabinet</em>.</li>
+            <li><strong>Perlakuan Administrasi:</strong> Wajib diberi <strong>Kode Inventaris & QR Code</strong>, dicatat di <em>Buku Induk Inventaris</em> dan <em>Kartu Inventaris Ruangan (KIR)</em>.</li>
+            <li><strong>Dampak Finansial:</strong> Dicatat sebagai <strong>Belanja Modal / Aset Tetap (CAPEX)</strong> yang mengalami <strong>penyusutan (depresiasi)</strong> nilai tiap tahun hingga tahap penghapusan.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top:16px; background:#f0fdfa; border:1px solid #99f6e4; border-radius:12px; padding:16px;">
+        <strong style="color:#0f766e; font-size:0.95rem;">🔄 Siklus Hidup Aset Perkantoran (Life-Cycle of Office Assets):</strong>
+        <div class="lifecycle-flow">
+          <span class="lc-node">1. Analisis Kebutuhan</span> →
+          <span class="lc-node">2. Pengadaan</span> →
+          <span class="lc-node">3. Penerimaan & Klasifikasi</span> →
+          <span class="lc-node">4. Inventarisasi / Stok</span> →
+          <span class="lc-node">5. Pemanfaatan & Perawatan</span> →
+          <span class="lc-node">6. Penghapusan Aset</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(1)">← Sebelumnya</button>
+      <button class="btn" onclick="goTab(3)">Lanjut ke Tahap 4: LKPD Digital 2 →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 4: LKPD DIGITAL PERTEMUAN 2 ==================== -->
+  <section class="section-panel" id="tab-3">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">LKPD Digital Pertemuan 2: Matriks Identifikasi & Klasifikasi Sarpras</h2>
+        <span class="pill pill-meaningful">Observasi Lab MPLB & Ruang TU</span>
+      </div>
+      <p style="font-size:0.86rem; margin-bottom:10px;"><strong>Instruksi Kerja:</strong> Lakukan observasi di Laboratorium MPLB dan Ruang Tata Usaha. Identifikasi objek sarpras (minimal 6 objek hingga target eksplorasi kelompok 20 objek), tentukan klasifikasi, sifat ketahanan barang, serta fungsi & lokasi idealnya!</p>
+
+      <div class="grid-2" style="margin-bottom:10px;">
+        <div>
+          <label style="font-size:0.82rem; font-weight:700;">Nama Kelompok & Anggota:</label>
+          <input type="text" id="lkpd2Group" placeholder="Contoh: Kelompok 2 — Pos Mesin & Perabot Kantor" />
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:700;">Area Observasi / Tanggal:</label>
+          <input type="text" id="lkpd2Area" value="Lab MPLB & Ruang Tata Usaha / Pertemuan 2" />
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="lkpd-table" id="lkpd2Table">
+          <thead>
+            <tr>
+              <th style="width:5%;">No</th>
+              <th style="width:24%;">Nama Sarpras Kantor</th>
+              <th style="width:20%;">Klasifikasi</th>
+              <th style="width:19%;">Sifat Ketahanan</th>
+              <th style="width:32%;">Fungsi Spesifik & Lokasi Ideal</th>
+            </tr>
+          </thead>
+          <tbody id="lkpd2Body">
+            <!-- Baris 1 & 2 Contoh dari Modul Ajar -->
+            <tr style="background:#f8fafc;">
+              <td>1</td>
+              <td><input type="text" value="Kertas HVS A4 80 gram" /></td>
+              <td>
+                <select>
+                  <option selected>Perlengkapan / ATK</option>
+                  <option>Perabot Kantor</option>
+                  <option>Mesin Kantor</option>
+                  <option>Pesawat Komunikasi</option>
+                  <option>Interior & Tata Ruang</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option selected>Barang Habis Pakai</option>
+                  <option>Barang Tidak Habis Pakai</option>
+                </select>
+              </td>
+              <td><input type="text" value="Pencetakan dokumen resmi; disimpan di rak tertutup bebas lembab." /></td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td>2</td>
+              <td><input type="text" value="Paper Shredder (Penghancur Kertas)" /></td>
+              <td>
+                <select>
+                  <option>Perlengkapan / ATK</option>
+                  <option>Perabot Kantor</option>
+                  <option selected>Mesin Kantor</option>
+                  <option>Pesawat Komunikasi</option>
+                  <option>Interior & Tata Ruang</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>Barang Habis Pakai</option>
+                  <option selected>Barang Tidak Habis Pakai</option>
+                </select>
+              </td>
+              <td><input type="text" value="Pemusnahan arsip rahasia; diletakkan dekat meja arsiparis." /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn btn-outline" onclick="addLkpdRow()">+ Tambah Baris Objek (Target s.d. 20 Objek)</button>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label style="font-size:0.88rem; font-weight:700; color:#1e3a8a;">Ruang Jawaban Analisis Risiko & Pengelolaan Aset Pertemuan 2 (Apa risiko jika kantor salah mengklasifikasikan aset?):</label>
+        <textarea id="lkpd2Risk" rows="3" style="margin-top:6px;" placeholder="Tuliskan analisis kelompok mengenai dampak kesalahan klasifikasi barang terhadap anggaran, inventarisasi, dan pemeliharaan..."></textarea>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-teal" onclick="exportCSV()">📊 Unduh Tabel ke Excel (.csv)</button>
+        <button class="btn" onclick="exportTXT()">💾 Unduh Laporan Lengkap (.txt)</button>
+        <button class="btn btn-outline" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(2)">← Sebelumnya</button>
+      <button class="btn" onclick="goTab(4)">Lanjut ke Tahap 5: Evaluasi & Penutup →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 5: EVALUASI & PENUTUP ==================== -->
+  <section class="section-panel" id="tab-4">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Evaluasi Pemahaman Klasifikasi & Siklus Hidup Sarpras</h2>
+        <span class="pill pill-joyful">Merefleksi (Joyful)</span>
+      </div>
+      <div id="quiz2Container"></div>
+      <button class="btn" onclick="gradeQuiz2()">Periksa Skor Evaluasi</button>
+      <div id="quiz2ScoreBox" style="margin-top:12px; font-weight:700; font-size:1rem;"></div>
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,#eff6ff 0%,#fef3c7 100%); border:1px solid #fde68a;">
+      <h3 style="color:#1e3a8a; font-size:1.05rem; margin-bottom:6px;">📢 Pengumuman & Persiapan Pertemuan Ke-3</h3>
+      <p style="font-size:0.9rem; margin-bottom:8px;">Pada <strong>Pertemuan Ke-3 (Investigasi Ergonomi & Konsep K3 Perkantoran)</strong>, kita akan melakukan eksperimen pengukuran langsung postur kerja dan dimensi stasiun komputer di Laboratorium MPLB mengacu <strong>Permenkes No. 48 Tahun 2016</strong>.</p>
+      <div style="background:#fff; padding:10px 14px; border-radius:8px; border-left:4px solid #d97706; font-size:0.88rem;">
+        <strong>Instruksi Guru:</strong> Pastikan seluruh peserta didik mengenakan pakaian praktik/seragam yang nyaman untuk kegiatan simulasi dan pengukuran ergonomi pada pertemuan berikutnya!
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(3)">← Sebelumnya</button>
+      <button class="btn btn-teal" onclick="goTab(0)">↺ Kembali ke Awal</button>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Navigation
+  function goTab(index) {
+    document.querySelectorAll('.section-panel').forEach((el, i) => el.classList.toggle('active', i === index));
+    document.querySelectorAll('.step-btn').forEach((btn, i) => btn.classList.toggle('active', i === index));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Mood Check-in
+  function selectMood(el, msg) {
+    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('moodFeedback').textContent = "Respon Kelas: " + msg;
+  }
+
+  // Rapid Visual Sorting Game (8 items)
+  const sortItems = [
+    { icon: "📄", name: "Kertas HVS A4 80 Gram (1 Rim)", desc: "Bahan cetak dokumen surat dan laporan harian kantor.", ans: "habis", exp: "Tepat! Kertas HVS habis terpakai dalam proses cetak sehingga masuk Barang Habis Pakai (ATK)." },
+    { icon: "🪑", name: "Ergonomic Mesh Chair (Kursi Kerja)", desc: "Kursi putar hidrolik dengan sandaran pinggang (lumbar support).", ans: "perabot", exp: "Benar! Kursi kerja termasuk Perabot Kantor (Office Furniture) yang bersifat Tidak Habis Pakai." },
+    { icon: "📠", name: "High-Speed ADF Scanner", desc: "Mesin pemindai dokumen otomatis berkecepatan tinggi untuk digitalisasi arsip.", ans: "mesin", exp: "Tepat! Scanner ADF adalah Mesin Kantor (elektrik) yang bersifat Tidak Habis Pakai." },
+    { icon: "🖋️", name: "Cartridge Toner LaserJet", desc: "Serbuk tinta pencetak untuk mesin printer laser kantor.", ans: "habis", exp: "Benar! Toner habis digunakan seiring jumlah halaman cetak (Barang Habis Pakai)." },
+    { icon: "🗄️", name: "Filing Cabinet 4 Laci Besi", desc: "Lemari penyimpanan map arsip aktif dengan sistem kunci sentral.", ans: "perabot", exp: "Tepat! Filing cabinet berfungsi menyimpan fisik dokumen jangka panjang (Perabot Kantor)." },
+    { icon: "📞", name: "IP PBX Telephone & Video Conference Bar", desc: "Perangkat komunikasi suara dan rapat virtual jarak jauh antar divisi.", ans: "mesin", exp: "Benar! Perangkat ini termasuk Pesawat Komunikasi Kantor (Tidak Habis Pakai)." },
+    { icon: "✂️", name: "Cross-Cut Paper Shredder", desc: "Mesin penghancur dokumen rahasia menjadi potongan kecil.", ans: "mesin", exp: "Tepat! Paper shredder adalah Mesin Kantor yang tidak habis dalam sekali pakai." },
+    { icon: "📁", name: "Map Snelhecter & Ordner Kertas", desc: "Perlengkapan penyimpan lembaran arsip harian di meja staf.", ans: "habis", exp: "Benar! Perlengkapan ATK ringan dengan masa pakai singkat dikategorikan Barang Habis Pakai." }
+  ];
+  let sortIdx = 0, sortPoints = 0, sortAnswered = false;
+
+  function renderSortItem() {
+    const it = sortItems[sortIdx];
+    document.getElementById('sortProgress').textContent = `Objek ${sortIdx + 1} dari ${sortItems.length}`;
+    document.getElementById('sortIcon').textContent = it.icon;
+    document.getElementById('sortName').textContent = it.name;
+    document.getElementById('sortDesc').textContent = it.desc;
+    document.getElementById('sortFeedback').textContent = "";
+    document.getElementById('nextSortBtn').style.display = "none";
+    sortAnswered = false;
+  }
+
+  function answerSort(choice) {
+    if (sortAnswered) return;
+    sortAnswered = true;
+    const it = sortItems[sortIdx];
+    const fb = document.getElementById('sortFeedback');
+    if (choice === it.ans) {
+      sortPoints += 12.5;
+      fb.style.color = "#166534";
+      fb.textContent = "✓ " + it.exp;
+    } else {
+      fb.style.color = "#991b1b";
+      fb.textContent = "✗ Kurang tepat. " + it.exp;
+    }
+    document.getElementById('sortScore').textContent = `Skor Kilat: ${Math.round(sortPoints)}`;
+    if (sortIdx < sortItems.length - 1) {
+      document.getElementById('nextSortBtn').style.display = "inline-block";
+    } else {
+      fb.textContent += " — Selesai! Semua 8 objek telah diuji.";
+    }
+  }
+
+  function nextSortItem() {
+    if (sortIdx < sortItems.length - 1) {
+      sortIdx++;
+      renderSortItem();
+    }
+  }
+
+  // 5 Pos Explorer Data
+  const posData = [
+    {
+      title: "POS 1: Perlengkapan Kantor & Alat Tulis Kantor (ATK)",
+      nature: "Barang Habis Pakai (Consumables)",
+      desc: "Benda-benda penunjang operasional administrasi harian yang langsung habis atau menyusut fisiknya ketika digunakan.",
+      examples: "Kertas HVS A4/F4, tinta printer/toner, pulpen, map snelhecter, amplop dinas, post-it, isi stapler, lakban, dan lem.",
+      admin: "Disimpan di lemari/gudang ATK dengan kartu stok (FIFO) dan diajukan melalui Bon Permintaan Barang."
+    },
+    {
+      title: "POS 2: Perabot Kantor (Office Furniture)",
+      nature: "Barang Tidak Habis Pakai (Aset Tetap)",
+      desc: "Benda fisik berbahan kayu, logam, atau polimer ergonomis yang menunjang kenyamanan duduk, menulis, dan menyimpan dokumen dalam jangka panjang.",
+      examples: "Ergonomic mesh chair, motorized standing desk, meja rapat modular, mobile drawer, filing cabinet, dan lemari arsip tahan api.",
+      admin: "Wajib dilabeli kode inventaris/QR Code, dicatat dalam Kartu Inventaris Ruangan (KIR), dan diperiksa kelayakan fisiknya secara berkala."
+    },
+    {
+      title: "POS 3: Mesin-Mesin Kantor (Office Machines)",
+      nature: "Barang Tidak Habis Pakai (Aset Tetap Elektrik/Mekanik)",
+      desc: "Peralatan mekanik maupun elektrik yang digunakan untuk memproses, menggandakan, memindai, menghitung, atau memusnahkan dokumen kantor.",
+      examples: "High-speed ADF scanner, multifunction laser printer, cross-cut paper shredder, mesin fotokopi, mesin laminating, dan binding machine.",
+      admin: "Membutuhkan kartu riwayat pemeliharaan/servis rutin (preventive maintenance) dan panduan K3 kelistrikan."
+    },
+    {
+      title: "POS 4: Pesawat Komunikasi Kantor (Office Communication)",
+      nature: "Barang Tidak Habis Pakai (Infrastruktur Komunikasi)",
+      desc: "Sarana transmisi pesan, suara, data, dan visual jarak jauh baik untuk komunikasi internal antar bagian maupun eksternal dengan klien.",
+      examples: "IP PBX Telephone system, Polycom video conferencing bar, intercom nirkabel, facsimile digital, dan switchboard router.",
+      admin: "Dikelola bersama tim IT/GA dengan pencatatan nomor ekstensi dan spesifikasi jaringan."
+    },
+    {
+      title: "POS 5: Interior & Perlengkapan Tata Ruang Kantor",
+      nature: "Barang Tidak Habis Pakai (Penunjang Estetika & Kenyamanan)",
+      desc: "Elemen penata ruang yang menciptakan kenyamanan visual, privasi akustik, kualitas udara sehat, dan estetika kantor modern.",
+      examples: "Acoustic wall panel, vertical indoor garden (biophilic), smart LED panel, partition glass frosted, air purifier HEPA, dan tirai/blinds.",
+      admin: "Mendukung standar kualitas lingkungan kerja (Permenkes 48/2016) dan konsep Green Office."
+    }
+  ];
+
+  function showPos(idx) {
+    document.querySelectorAll('.pos-card').forEach((c, i) => c.classList.toggle('active', i === idx));
+    const d = posData[idx];
+    document.getElementById('posDetailBox').innerHTML = `
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+        <h3 style="color:#1e3a8a; font-size:1.05rem;">${d.title}</h3>
+        <span class="pill pill-meaningful">${d.nature}</span>
+      </div>
+      <p style="font-size:0.9rem; margin-bottom:8px;"><strong>Karakteristik:</strong> ${d.desc}</p>
+      <p style="font-size:0.88rem; margin-bottom:8px;"><strong>Contoh Fasilitas Kantor Modern:</strong> ${d.examples}</p>
+      <p style="font-size:0.86rem; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0;"><strong>Perlakuan Administrasi Sarpras:</strong> ${d.admin}</p>
+    `;
+  }
+  showPos(0);
+
+  // Dynamic LKPD Rows (Pre-fill up to 6 rows initially, extendable to 20)
+  const lkpdBody = document.getElementById('lkpd2Body');
+  function addLkpdRow() {
+    const currentCount = lkpdBody.rows.length;
+    if (currentCount >= 20) {
+      alert("Maksimal 20 baris objek eksplorasi telah tercapai.");
+      return;
+    }
+    const rowNum = currentCount + 1;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${rowNum}</td>
+      <td><input type="text" placeholder="Nama objek sarpras ke-${rowNum}..." /></td>
+      <td>
+        <select>
+          <option>Perlengkapan / ATK</option>
+          <option selected>Perabot Kantor</option>
+          <option>Mesin Kantor</option>
+          <option>Pesawat Komunikasi</option>
+          <option>Interior & Tata Ruang</option>
+        </select>
+      </td>
+      <td>
+        <select>
+          <option>Barang Habis Pakai</option>
+          <option selected>Barang Tidak Habis Pakai</option>
+        </select>
+      </td>
+      <td><input type="text" placeholder="Fungsi spesifik & lokasi ideal..." /></td>
+    `;
+    lkpdBody.appendChild(tr);
+  }
+  for (let i = 0; i < 4; i++) addLkpdRow(); // Start with 6 rows matching LKPD module
+
+  // Export LKPD to CSV (Excel)
+  function exportCSV() {
+    let csv = ["No,Nama Sarpras Kantor,Klasifikasi,Sifat Ketahanan,Fungsi Spesifik & Lokasi Ideal"];
+    Array.from(lkpdBody.rows).forEach((row, idx) => {
+      const nama = row.cells[1].querySelector('input').value.replace(/"/g, '""');
+      const klas = row.cells[2].querySelector('select').value;
+      const sifat = row.cells[3].querySelector('select').value;
+      const fungsi = row.cells[4].querySelector('input').value.replace(/"/g, '""');
+      csv.push(`${idx + 1},"${nama}","${klas}","${sifat}","${fungsi}"`);
+    });
+    const blob = new Blob(["\uFEFF" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "LKPD2_Klasifikasi_Sarpras_XI_MPLB.csv";
+    a.click();
+  }
+
+  // Export LKPD to TXT
+  function exportTXT() {
+    let lines = [
+      "LKPD DIGITAL PERTEMUAN 2 — KLASIFIKASI & MATRIKS IDENTIFIKASI SARPRAS",
+      "====================================================================",
+      "Kelompok : " + (document.getElementById('lkpd2Group').value || "-"),
+      "Area     : " + (document.getElementById('lkpd2Area').value || "-"),
+      ""
+    ];
+    Array.from(lkpdBody.rows).forEach((row, idx) => {
+      const nama = row.cells[1].querySelector('input').value || "-";
+      const klas = row.cells[2].querySelector('select').value;
+      const sifat = row.cells[3].querySelector('select').value;
+      const fungsi = row.cells[4].querySelector('input').value || "-";
+      lines.push(`${idx + 1}. ${nama} | [${klas}] | [${sifat}] -> ${fungsi}`);
+    });
+    lines.push("", "ANALISIS RISIKO & PENGELOLAAN ASET:", document.getElementById('lkpd2Risk').value || "-");
+
+    const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "Hasil_LKPD2_OTK_Sarpras.txt";
+    a.click();
+  }
+
+  // Evaluation Quiz Pertemuan 2
+  const quiz2Data = [
+    {
+      q: "1. Perangkat seperti High-Speed ADF Scanner dan Cross-Cut Paper Shredder termasuk ke dalam kelompok klasifikasi...",
+      opts: ["Perabot Kantor (Office Furniture)", "Mesin Kantor (Office Machines)", "Perlengkapan Habis Pakai", "Pesawat Komunikasi"],
+      ans: 1,
+      exp: "Tepat! Alat mekanik/elektrik yang memproses atau menghancurkan dokumen termasuk Mesin Kantor."
+    },
+    {
+      q: "2. Mengapa pembelian Ergonomic Mesh Chair dicatat sebagai Aset Tetap (Barang Tidak Habis Pakai), sedangkan pembelian Tinta Toner dicatat sebagai Biaya Operasional?",
+      opts: [
+        "Karena kursi lebih berat daripada tinta toner",
+        "Karena kursi memiliki masa manfaat > 1 tahun dan mengalami penyusutan nilai, sedangkan tinta habis dalam pemakaian singkat",
+        "Karena tinta toner tidak perlu dicatat di kartu gudang",
+        "Karena kursi hanya boleh digunakan oleh pimpinan"
+      ],
+      ans: 1,
+      exp: "Benar! Klasifikasi sifat barang menentukan perlakuan akuntansi antara Belanja Modal (CAPEX/penyusutan) vs Beban Operasional (OPEX)."
+    },
+    {
+      q: "3. Acoustic wall panel, vertical indoor garden, dan air purifier HEPA di ruang kerja modern diklasifikasikan sebagai...",
+      opts: ["Pesawat Komunikasi", "Mesin Kantor", "Interior & Perlengkapan Tata Ruang", "Barang Habis Pakai"],
+      ans: 2,
+      exp: "Tepat! Elemen penata estetika, privasi akustik, dan kualitas udara ruang termasuk Interior & Perlengkapan Tata Ruang."
+    },
+    {
+      q: "4. Tahapan yang tepat dalam siklus hidup aset perkantoran (Life-Cycle of Office Assets) setelah barang diterima dan diklasifikasikan adalah...",
+      opts: [
+        "Langsung dihapuskan dari daftar aset",
+        "Inventarisasi/Pencatatan Stok -> Pemanfaatan & Pemeliharaan -> Penghapusan",
+        "Analisis Kebutuhan -> Pengadaan",
+        "Dilelang kepada pihak luar"
+      ],
+      ans: 1,
+      exp: "Benar! Setelah diterima dan diklasifikasi, barang dicatat dalam inventaris/kartu stok, dimanfaatkan & dirawat, baru kemudian dihapuskan jika rusak berat/usang."
+    }
+  ];
+
+  const q2Box = document.getElementById('quiz2Container');
+  quiz2Data.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-item';
+    div.innerHTML = `<p>${item.q}</p>` + item.opts.map((opt, oIdx) =>
+      `<label class="quiz-opt"><input type="radio" name="q2_${idx}" value="${oIdx}"> ${opt}</label>`
+    ).join('') + `<div class="feedback" id="fb2_${idx}"></div>`;
+    q2Box.appendChild(div);
+  });
+
+  function gradeQuiz2() {
+    let score = 0;
+    quiz2Data.forEach((item, idx) => {
+      const chosen = document.querySelector(`input[name="q2_${idx}"]:checked`);
+      const fb = document.getElementById(`fb2_${idx}`);
+      if (chosen && Number(chosen.value) === item.ans) {
+        score++;
+        fb.className = 'feedback ok';
+        fb.textContent = "✓ Benar! " + item.exp;
+      } else {
+        fb.className = 'feedback no';
+        fb.textContent = "✗ Kurang tepat. " + item.exp;
+      }
+    });
+    const pct = Math.round((score / quiz2Data.length) * 100);
+    document.getElementById('quiz2ScoreBox').textContent = `Skor Evaluasi Pertemuan 2: ${pct} / 100 (${score} dari ${quiz2Data.length} soal benar)`;
+  }
+</script>
+</body>
+</html>
