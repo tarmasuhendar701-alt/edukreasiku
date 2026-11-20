@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Pembelajaran Interaktif — OTK Sarpras XI MPLB (Pertemuan 3)</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --teal: #0f766e;
+      --teal-soft: #ccfbf1;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --danger: #dc2626;
+      --danger-soft: #fee2e2;
+      --success: #16a34a;
+      --success-soft: #dcfce7;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0f766e 100%);
+      color: #fff;
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.22);
+    }
+    .header-top {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.3px; }
+    .brand p { font-size: 0.8rem; color: #cbd5e1; }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Navigation Stepper */
+    nav.stepper {
+      max-width: 1200px;
+      margin: 18px auto 0;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .step-btn {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .step-btn span { display: block; font-size: 0.7rem; font-weight: 500; margin-top: 2px; }
+    .step-btn:hover { border-color: var(--primary-light); color: var(--primary); }
+    .step-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
+    }
+    .step-btn.active span { color: #dbeafe; }
+
+    /* Main Container */
+    main { max-width: 1200px; margin: 18px auto 40px; padding: 0 16px; }
+    .section-panel { display: none; animation: fadeIn 0.3s ease; }
+    .section-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 18px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+    .card-title { font-size: 1.12rem; font-weight: 700; color: var(--primary); }
+    .pill { padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; }
+    .pill-mindful { background: #e0e7ff; color: #1e40af; }
+    .pill-meaningful { background: var(--teal-soft); color: var(--teal); }
+    .pill-joyful { background: var(--amber-soft); color: var(--amber); }
+    .pill-health { background: var(--success-soft); color: var(--success); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    @media (max-width: 900px) {
+      nav.stepper { grid-template-columns: 1fr 1fr; }
+      .grid-2, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    /* Buttons */
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn:hover { background: #1d4ed8; }
+    .btn-teal { background: var(--teal); }
+    .btn-teal:hover { background: #115e59; }
+    .btn-amber { background: var(--amber); }
+    .btn-amber:hover { background: #b45309; }
+    .btn-outline { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); }
+    .btn-outline:hover { background: #eff6ff; }
+
+    /* Posture Experiment Box */
+    .exp-box {
+      background: linear-gradient(135deg, #fef2f2 0%, #fffbeb 100%);
+      border: 1.5px solid #fecaca;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+    }
+    .timer-big {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--danger);
+      margin: 6px 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .symptom-list { text-align: left; margin-top: 10px; }
+    .symptom-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    /* Hazard Cards */
+    .hazard-card {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 14px;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .hazard-card:hover, .hazard-card.active {
+      border-color: var(--danger);
+      background: #fef2f2;
+      box-shadow: 0 4px 10px rgba(220, 38, 38, 0.1);
+    }
+    .hazard-detail {
+      margin-top: 14px;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-left: 5px solid var(--teal);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    /* Ergonomic Simulator */
+    .slider-group { margin-bottom: 14px; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; }
+    .slider-label { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+    input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; }
+    .sim-canvas-wrap {
+      background: #0f172a;
+      border-radius: 12px;
+      padding: 16px;
+      color: #fff;
+      text-align: center;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .st-ok { background: var(--success-soft); color: var(--success); }
+    .st-warn { background: var(--amber-soft); color: var(--amber); }
+    .st-bad { background: var(--danger-soft); color: var(--danger); }
+
+    /* LKPD Table */
+    table.lkpd-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    table.lkpd-table th {
+      background: var(--primary);
+      color: #fff;
+      text-align: left;
+      padding: 9px 10px;
+      font-size: 0.82rem;
+    }
+    table.lkpd-table td {
+      border: 1px solid #cbd5e1;
+      padding: 8px;
+      vertical-align: top;
+      font-size: 0.83rem;
+    }
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 7px 8px;
+      font-size: 0.83rem;
+      background: #fff;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary-light); background: #f8fafc; }
+
+    /* Quiz */
+    .quiz-item { margin-bottom: 14px; padding: 14px; border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc; }
+    .quiz-item p { font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+    .quiz-opt {
+      display: block;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .quiz-opt:hover { background: #eff6ff; border-color: var(--primary-light); }
+    .feedback { margin-top: 8px; font-size: 0.82rem; font-weight: 600; display: none; padding: 8px 10px; border-radius: 6px; }
+    .feedback.ok { background: #dcfce7; color: #166534; display: block; }
+    .feedback.no { background: #fee2e2; color: #991b1b; display: block; }
+
+    .nav-footer { display: flex; justify-content: space-between; margin-top: 16px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="brand">
+      <h1>OTK SARANA & PRASARANA — PERTEMUAN 3</h1>
+      <p>Investigasi Ergonomi & Konsep K3 Perkantoran • SMK IPTEK AL-IKHWAN • Kelas XI MPLB</p>
+    </div>
+    <div class="badges">
+      <span class="badge">Alokasi: 4 × 45 Menit</span>
+      <span class="badge">Acuan: Permenkes No. 48/2016</span>
+      <span class="badge">Dimensi: Kesehatan & Nalar Kritis</span>
+    </div>
+  </div>
+</header>
+
+<nav class="stepper" role="tablist">
+  <button class="step-btn active" onclick="goTab(0)">1. Pendahuluan<span>Eksperimen Postur 3 Menit (25')</span></button>
+  <button class="step-btn" onclick="goTab(1)">2. Fenomena & Hazard<span>Bahaya K3 & Permenkes 48/2016</span></button>
+  <button class="step-btn" onclick="goTab(2)">3. Simulator Ergonomi<span>Uji Hipotesis Workstation</span></button>
+  <button class="step-btn" onclick="goTab(3)">4. LKPD Digital 3<span>Pengukuran Aktual Lab MPLB</span></button>
+  <button class="step-btn" onclick="goTab(4)">5. Refleksi & Penutup<span>Evaluasi & Briefing Audit</span></button>
+</nav>
+
+<main>
+  <!-- ==================== TAB 1: PENDAHULUAN & EKSPERIMEN POSTUR ==================== -->
+  <section class="section-panel active" id="tab-0">
+    <div class="card" style="background:linear-gradient(135deg,#1e3a8a,#0f766e); color:#fff;">
+      <span class="pill" style="background:rgba(255,255,255,0.2); color:#fff;">Prinsip Utama Ergonomi Perkantoran</span>
+      <h2 style="font-size:1.2rem; margin-top:8px;">“Sarana harus menyesuaikan anatomi manusia, bukan manusia yang dipaksa tunduk pada kecacatan desain fasilitas.”</h2>
+      <p style="font-size:0.88rem; color:#dbeafe; margin-top:6px;">Landasan Hukum: <strong>Peraturan Menteri Kesehatan (Permenkes) RI No. 48 Tahun 2016</strong> tentang Standar Keselamatan dan Kesehatan Kerja Perkantoran.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card exp-box">
+        <span class="pill" style="background:#fee2e2; color:#991b1b;">Apersepsi Berbasis Masalah (Dimensi Kesehatan)</span>
+        <h3 style="margin-top:8px; color:#991b1b;">Simulasi Postur Membungkuk (3 Menit)</h3>
+        <p style="font-size:0.85rem; color:#475569; margin-top:4px;">Satu sukarelawan siswa memperagakan posisi duduk membungkuk sambil mengetik dengan pergelangan tangan tertekuk selama 3 menit, sementara kelas mengamati!</p>
+        <div class="timer-big" id="postureTimer">03:00</div>
+        <div style="display:flex; gap:8px; justify-content:center;">
+          <button class="btn" style="background:#dc2626;" onclick="startPostureTimer()">▶ Mulai Simulasi 3 Menit</button>
+          <button class="btn btn-outline" onclick="resetPostureTimer()">Reset</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="pill pill-mindful">Identifikasi Keluhan Fisik (MSDs)</span>
+        <h3 style="margin-top:8px; color:#1e3a8a;">Apa yang Dirasakan Tubuh Setelah 3 Menit?</h3>
+        <p style="font-size:0.84rem; color:#64748b;">Centang gejala fisik yang muncul selama eksperimen:</p>
+        <div class="symptom-list">
+          <label class="symptom-item"><input type="checkbox" onchange="updateSymptomNote()" /> <span><strong>Low Back Pain:</strong> Pegal/nyeri pada punggung bagian bawah akibat kursi tanpa sandaran pinggang (<em>lumbar support</em>).</span></label>
+          <label class="symptom-item"><input type="checkbox" onchange="updateSymptomNote()" /> <span><strong>Forward Head Posture:</strong> Leher & bahu kaku karena posisi monitor terlalu rendah.</span></label>
+          <label class="symptom-item"><input type="checkbox" onchange="updateSymptomNote()" /> <span><strong>Carpal Tunnel Syndrome (CTS):</strong> Pergelangan tangan nyeri/kesemutan akibat sudut siku & keyboard tidak sejajar.</span></label>
+          <label class="symptom-item"><input type="checkbox" onchange="updateSymptomNote()" /> <span><strong>Computer Vision Syndrome (CVS):</strong> Mata perih/lelah karena jarak layar terlalu dekat atau silau (<em>glare</em>).</span></label>
+        </div>
+        <p id="symptomSummary" style="margin-top:8px; font-size:0.84rem; font-weight:700; color:#0f766e;"></p>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <span></span>
+      <button class="btn" onclick="goTab(1)">Lanjut ke Tahap 2: Fenomena Hazard & Permenkes 48/2016 →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 2: FENOMENA HAZARD & PERMENKES 48/2016 ==================== -->
+  <section class="section-panel" id="tab-1">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Tahap 1 Inquiry: Orientasi Fenomena Ergonomi & Bahaya (Hazard) K3 Kantor</h2>
+        <span class="pill pill-mindful">Memahami (Mindful)</span>
+      </div>
+      <p style="font-size:0.9rem; margin-bottom:14px;">Lingkungan kantor sering dianggap bebas risiko, padahal menyimpan 4 kategori bahaya laten (*hazard*). Klik setiap kartu di bawah untuk membedah risiko dan standar pengendaliannya menurut <strong>Permenkes No. 48 Tahun 2016</strong>:</p>
+
+      <div class="grid-4">
+        <div class="hazard-card active" id="hz-0" onclick="showHazard(0)">
+          <div style="font-size:1.7rem;">🦴</div>
+          <strong style="font-size:0.88rem; color:#991b1b;">1. Ergonomic Hazard</strong>
+          <p style="font-size:0.78rem; color:#64748b; margin-top:3px;">Postur kerja janggal & cedera otot-tulang (MSDs).</p>
+        </div>
+        <div class="hazard-card" id="hz-1" onclick="showHazard(1)">
+          <div style="font-size:1.7rem;">⚡</div>
+          <strong style="font-size:0.88rem; color:#991b1b;">2. Electrical & Fire Hazard</strong>
+          <p style="font-size:0.78rem; color:#64748b; margin-top:3px;">Kabel melintang, korsleting & jalur evakuasi.</p>
+        </div>
+        <div class="hazard-card" id="hz-2" onclick="showHazard(2)">
+          <div style="font-size:1.7rem;">💡</div>
+          <strong style="font-size:0.88rem; color:#991b1b;">3. Physical Hazard</strong>
+          <p style="font-size:0.78rem; color:#64748b; margin-top:3px;">Silau monitor (glare), suhu ruang & kebisingan.</p>
+        </div>
+        <div class="hazard-card" id="hz-3" onclick="showHazard(3)">
+          <div style="font-size:1.7rem;">🧪</div>
+          <strong style="font-size:0.88rem; color:#991b1b;">4. Chemical & Air Hazard</strong>
+          <p style="font-size:0.78rem; color:#64748b; margin-top:3px;">Debu toner printer/fotokopi & sirkulasi udara.</p>
+        </div>
+      </div>
+
+      <div class="hazard-detail" id="hazardDetailBox"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:1rem; color:#1e3a8a; margin-bottom:8px;">📖 Glosarium Kunci Pertemuan 3</h3>
+      <div class="grid-2" style="font-size:0.86rem;">
+        <div style="background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0;">
+          <strong>Ergonomi:</strong> Ilmu yang mempelajari keserasian antara manusia, peralatan kerja, dan lingkungan kerja demi mengoptimalkan kenyamanan, kesehatan, dan efisiensi.
+        </div>
+        <div style="background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0;">
+          <strong>Musculoskeletal Disorders (MSDs):</strong> Gangguan sakit atau cedera pada sistem gerak tubuh manusia (otot, saraf, tendon, persendian) akibat postur kerja janggal yang berulang.
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(0)">← Sebelumnya</button>
+      <button class="btn" onclick="goTab(2)">Lanjut ke Tahap 3: Simulator Ergonomi →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 3: SIMULATOR ERGONOMI INTERAKTIF ==================== -->
+  <section class="section-panel" id="tab-2">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Tahap 2 Inquiry: Formulasi Hipotesis & Kalibrasi Workstation Ergonomis</h2>
+        <span class="pill pill-meaningful">Simulasi Prediksi Interaktif</span>
+      </div>
+      <p style="font-size:0.88rem; margin-bottom:14px;">Geser setiap parameter di sebelah kiri untuk memprediksi pengaturan stasiun kerja komputer yang memenuhi standar <strong>Permenkes No. 48 Tahun 2016</strong>, dan amati perubahan postur pada diagram di sebelah kanan:</p>
+
+      <div class="grid-2">
+        <div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>1. Jarak Mata ke Layar Monitor</span>
+              <span id="valDist" style="color:#1e3a8a;">55 cm</span>
+            </div>
+            <input type="range" id="slDist" min="25" max="100" value="55" oninput="updateSimulator()" />
+            <div style="font-size:0.76rem; color:#64748b;">Standar Permenkes 48/2016: <strong>45 cm – 70 cm</strong> (puncak layar sejajar mata)</div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>2. Sudut Siku & Lengan Mengetik</span>
+              <span id="valElbow" style="color:#1e3a8a;">95°</span>
+            </div>
+            <input type="range" id="slElbow" min="60" max="140" value="95" oninput="updateSimulator()" />
+            <div style="font-size:0.76rem; color:#64748b;">Standar Permenkes 48/2016: <strong>90° – 100°</strong> (posisi bahu rileks netral)</div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>3. Sudut Lutut & Posisi Telapak Kaki</span>
+              <span id="valKnee" style="color:#1e3a8a;">90°</span>
+            </div>
+            <input type="range" id="slKnee" min="60" max="130" value="90" oninput="updateSimulator()" />
+            <div style="font-size:0.76rem; color:#64748b;">Standar Permenkes 48/2016: <strong>90°</strong> (paha horizontal, kaki menapak rata/footrest)</div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>4. Intensitas Pencahayaan Workstation</span>
+              <span id="valLux" style="color:#1e3a8a;">350 Lux</span>
+            </div>
+            <input type="range" id="slLux" min="80" max="600" step="10" value="350" oninput="updateSimulator()" />
+            <div style="font-size:0.76rem; color:#64748b;">Standar Permenkes 48/2016: <strong>Minimal 300 Lux</strong> (tanpa silau pantulan/glare)</div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>5. Suhu Udara Ruang Kerja</span>
+              <span id="valTemp" style="color:#1e3a8a;">24 °C</span>
+            </div>
+            <input type="range" id="slTemp" min="18" max="33" value="24" oninput="updateSimulator()" />
+            <div style="font-size:0.76rem; color:#64748b;">Standar Permenkes 48/2016: <strong>23 °C – 26 °C</strong> (kelembaban 40%–60%)</div>
+          </div>
+        </div>
+
+        <div class="sim-canvas-wrap">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:0.85rem; font-weight:700; color:#93c5fd;">MONITOR POSTUR & LINGKUNGAN KERJA</span>
+            <span id="ergoScoreBadge" class="status-badge st-ok">Skor Ergonomi: 100% (IDEAL)</span>
+          </div>
+
+          <!-- Dynamic SVG Workstation Diagram -->
+          <svg id="ergoSvg" viewBox="0 0 420 270" style="width:100%; max-height:260px; background:#1e293b; border-radius:10px; border:1px solid #334155;">
+            <!-- Ceiling Lamp Light Cone -->
+            <polygon id="svgLightCone" points="210,15 110,240 310,240" fill="rgba(250, 204, 21, 0.14)" />
+            <rect x="185" y="8" width="50" height="8" rx="4" fill="#facc15" />
+            <text id="svgEnvText" x="14" y="24" fill="#cbd5e1" font-size="11" font-family="sans-serif">Cahaya: 350 Lux | Suhu: 24°C</text>
+
+            <!-- Floor -->
+            <line x1="20" y1="240" x2="400" y2="240" stroke="#64748b" stroke-width="3" />
+
+            <!-- Desk -->
+            <rect x="210" y="145" width="145" height="8" rx="3" fill="#94a3b8" />
+            <rect x="335" y="153" width="10" height="87" fill="#64748b" />
+
+            <!-- Monitor (moves horizontally based on distance slider) -->
+            <g id="svgMonitor" transform="translate(275, 82)">
+              <rect x="12" y="45" width="8" height="18" fill="#cbd5e1" />
+              <rect x="2" y="60" width="28" height="4" rx="2" fill="#cbd5e1" />
+              <rect x="0" y="0" width="10" height="48" rx="3" fill="#38bdf8" stroke="#e0f2fe" stroke-width="1.5" />
+            </g>
+
+            <!-- Eye-to-Monitor Sightline -->
+            <line id="svgSightLine" x1="158" y1="78" x2="275" y2="92" stroke="#34d399" stroke-width="1.5" stroke-dasharray="4,3" />
+            <text id="svgDistLabel" x="195" y="72" fill="#34d399" font-size="11" font-weight="bold">55 cm</text>
+
+            <!-- Chair -->
+            <rect x="108" y="168" width="68" height="8" rx="4" fill="#475569" />
+            <rect x="106" y="102" width="8" height="68" rx="4" fill="#475569" />
+            <rect x="138" y="176" width="8" height="60" fill="#64748b" />
+            <line x1="115" y1="236" x2="168" y2="236" stroke="#64748b" stroke-width="5" stroke-linecap="round" />
+
+            <!-- Human Stick/Ergonomic Figure -->
+            <!-- Head -->
+            <circle id="svgHead" cx="152" cy="76" r="15" fill="#fbbf24" />
+            <!-- Torso -->
+            <line id="svgTorso" x1="145" y1="91" x2="142" y2="162" stroke="#60a5fa" stroke-width="10" stroke-linecap="round" />
+            <!-- Upper Arm & Forearm -->
+            <polyline id="svgArm" points="145,102 145,140 205,140" fill="none" stroke="#34d399" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- Thigh & Lower Leg -->
+            <polyline id="svgLeg" points="142,162 195,162 195,235" fill="none" stroke="#34d399" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          <div id="simDiagnosisBox" style="margin-top:12px; text-align:left; background:#1e293b; padding:12px; border-radius:8px; font-size:0.83rem; border:1px solid #334155;">
+            <strong style="color:#34d399;">✓ Hasil Kalibrasi:</strong> Seluruh parameter berada pada rentang ideal Permenkes No. 48 Tahun 2016. Risiko kelelahan mata dan MSDs minimal!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(1)">← Sebelumnya</button>
+      <button class="btn" onclick="goTab(3)">Lanjut ke Tahap 4: LKPD Digital 3 →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 4: LKPD DIGITAL PERTEMUAN 3 ==================== -->
+  <section class="section-panel" id="tab-3">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">LKPD Digital Pertemuan 3: Investigasi Ergonomi Stasiun Kerja & K3 Perkantoran</h2>
+        <span class="pill pill-meaningful">Eksperimen Pengukuran Lab Komputer</span>
+      </div>
+      <p style="font-size:0.86rem; margin-bottom:10px;"><strong>Instruksi Kerja:</strong> Duduklah di workstation komputer Anda di Lab MPLB, gunakan pita meteran/penggaris atau busur derajat, ukur dimensi aktual ruang kerja Anda, lalu masukkan angkanya ke tabel di bawah untuk diuji secara otomatis terhadap <strong>Standar Permenkes No. 48 Tahun 2016</strong>!</p>
+
+      <div class="grid-2" style="margin-bottom:10px;">
+        <div>
+          <label style="font-size:0.82rem; font-weight:700;">Nama Kelompok & Anggota:</label>
+          <input type="text" id="lkpd3Group" placeholder="Contoh: Kelompok 3 — Stasiun Komputer PC-05" />
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:700;">Lokasi Workstation / Tanggal:</label>
+          <input type="text" id="lkpd3Loc" value="Lab Komputer MPLB / Pertemuan 3" />
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="lkpd-table">
+          <thead>
+            <tr>
+              <th style="width:22%;">Komponen Ergonomi</th>
+              <th style="width:25%;">Standar Regulasi<br><small>(Permenkes No. 48/2016)</small></th>
+              <th style="width:20%;">Hasil Ukur / Kondisi Nyata</th>
+              <th style="width:33%;">Status Kesesuaian & Dampak Kesehatan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Jarak Mata ke Layar Monitor</strong></td>
+              <td>45 cm – 70 cm sejajar / 15°–20° di bawah pandangan</td>
+              <td>
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <input type="number" id="m_dist" placeholder="cm" oninput="evalLkpd3()" />
+                  <span>cm</span>
+                </div>
+              </td>
+              <td id="res_dist"><span style="color:#64748b;">Masukkan hasil ukur (cm)...</span></td>
+            </tr>
+            <tr>
+              <td><strong>2. Sudut Siku & Lengan Mengetik</strong></td>
+              <td>Sudut 90° – 100° posisi rileks netral</td>
+              <td>
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <input type="number" id="m_elbow" placeholder="derajat" oninput="evalLkpd3()" />
+                  <span>°</span>
+                </div>
+              </td>
+              <td id="res_elbow"><span style="color:#64748b;">Masukkan sudut siku (°)...</span></td>
+            </tr>
+            <tr>
+              <td><strong>3. Tinggi Kursi & Kaki Menapak</strong></td>
+              <td>Paha horizontal (lutut 90°), telapak kaki menapak rata (atau <em>footrest</em>)</td>
+              <td>
+                <select id="m_chair" onchange="evalLkpd3()">
+                  <option value="">-- Pilih Kondisi Nyata --</option>
+                  <option value="ok">Paha horizontal & telapak kaki menapak rata</option>
+                  <option value="high">Kursi terlalu tinggi (kaki menggantung)</option>
+                  <option value="low">Kursi terlalu rendah (lutut tertekuk tajam)</option>
+                </select>
+              </td>
+              <td id="res_chair"><span style="color:#64748b;">Pilih hasil observasi kursi...</span></td>
+            </tr>
+            <tr>
+              <td><strong>4. Pencahayaan Workstation</strong></td>
+              <td>Minimal 300 Lux (tidak menyilaukan / bebas <em>glare</em>)</td>
+              <td>
+                <select id="m_light" onchange="evalLkpd3()">
+                  <option value="">-- Pilih Kondisi Cahaya --</option>
+                  <option value="ok">Terang merata (≥ 300 Lux) & bebas pantulan silau</option>
+                  <option value="dim">Redup / kurang cahaya (< 300 Lux)</option>
+                  <option value="glare">Menyilaukan (pantulan cahaya lampu/jendela di layar)</option>
+                </select>
+              </td>
+              <td id="res_light"><span style="color:#64748b;">Pilih kondisi pencahayaan...</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label style="font-size:0.88rem; font-weight:700; color:#1e3a8a;">Ruang Jawaban Solusi Ergonomi & Mitigasi Gangguan Otot (MSDs) Pertemuan 3 (Tuliskan anomali yang ditemukan di lab & usulan solusi santun/logis):</label>
+        <textarea id="lkpd3Solusi" rows="4" style="margin-top:6px;" placeholder="Contoh: Pada PC-05 jarak monitor terlalu dekat (35 cm) dan kursi belum memiliki sandaran pinggang. Solusi jangka pendek: memundurkan monitor hingga 55 cm dan menambahkan bantal penyangga lumbar..."></textarea>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-teal" onclick="exportLkpd3CSV()">📊 Unduh Tabel Pengukuran (.csv)</button>
+        <button class="btn" onclick="exportLkpd3TXT()">💾 Unduh Laporan LKPD 3 (.txt)</button>
+        <button class="btn btn-outline" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(2)">← Sebelumnya</button>
+      <button class="btn" onclick="goTab(4)">Lanjut ke Tahap 5: Evaluasi & Briefing Audit →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 5: EVALUASI & BRIEFING AUDIT PERTEMUAN 4 ==================== -->
+  <section class="section-panel" id="tab-4">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Evaluasi Analisis Ergonomi & Standar K3 Perkantoran</h2>
+        <span class="pill pill-joyful">Merefleksi (Joyful)</span>
+      </div>
+      <div id="quiz3Container"></div>
+      <button class="btn" onclick="gradeQuiz3()">Periksa Skor Evaluasi</button>
+      <div id="quiz3ScoreBox" style="margin-top:12px; font-weight:700; font-size:1rem;"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="pill pill-health">Komitmen Kesehatan Kerja</span>
+        <h3 style="margin-top:8px; color:#0f766e; font-size:1rem;">Konsolidasi Pemikiran Individu</h3>
+        <p style="font-size:0.86rem; margin-top:4px;">Tuliskan 1 kebiasaan postur sehat yang akan Anda terapkan setiap kali menggunakan komputer:</p>
+        <input type="text" id="ergoPledge" style="margin-top:8px;" placeholder="Mulai hari ini saya berkomitmen menjaga jarak mata 50 cm dan menegakkan punggung..." />
+      </div>
+
+      <div class="card" style="background:linear-gradient(135deg,#eff6ff 0%,#fef3c7 100%); border:1px solid #fde68a;">
+        <span class="pill pill-joyful">Briefing Misi Pertemuan Ke-4</span>
+        <h3 style="margin-top:8px; color:#1e3a8a; font-size:1rem;">Proyek Nyata: “Junior K3 Auditor”</h3>
+        <p style="font-size:0.86rem; margin-top:4px;">Pada <strong>Pertemuan Ke-4</strong>, kelas kita akan berperan sebagai lembaga konsultan audit independen untuk melakukan inspeksi kelayakan fisik & K3 ke area target di sekolah (<strong>Ruang TU, Ruang Guru, Lab MPLB, Perpustakaan, dan Front Office</strong>) lengkap dengan foto bukti temuan!</p>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(3)">← Sebelumnya</button>
+      <button class="btn btn-teal" onclick="goTab(0)">↺ Kembali ke Awal</button>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Navigation
+  function goTab(index) {
+    document.querySelectorAll('.section-panel').forEach((el, i) => el.classList.toggle('active', i === index));
+    document.querySelectorAll('.step-btn').forEach((btn, i) => btn.classList.toggle('active', i === index));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // 3-Minute Posture Experiment Timer
+  let pSec = 180, pInt = null;
+  function renderPTimer() {
+    const m = String(Math.floor(pSec / 60)).padStart(2, '0');
+    const s = String(pSec % 60).padStart(2, '0');
+    document.getElementById('postureTimer').textContent = `${m}:${s}`;
+  }
+  function startPostureTimer() {
+    if (pInt) return;
+    pInt = setInterval(() => {
+      if (pSec > 0) { pSec--; renderPTimer(); }
+      else {
+        clearInterval(pInt); pInt = null;
+        alert("Waktu 3 menit selesai! Silakan tegakkan kembali badan dan diskusikan keluhan otot yang muncul.");
+      }
+    }, 1000);
+  }
+  function resetPostureTimer() {
+    clearInterval(pInt); pInt = null; pSec = 180; renderPTimer();
+  }
+
+  function updateSymptomNote() {
+    const checked = document.querySelectorAll('.symptom-list input:checked').length;
+    const el = document.getElementById('symptomSummary');
+    if (checked > 0) {
+      el.textContent = `Teridentifikasi ${checked} potensi gangguan kesehatan akibat desain/postur kerja yang tidak ergonomis!`;
+    } else {
+      el.textContent = "";
+    }
+  }
+
+  // Hazard Explorer Data
+  const hazardData = [
+    {
+      title: "1. Ergonomic Hazard (Bahaya Postur & Desain Workstation)",
+      risk: "Posisi duduk membungkuk, monitor terlalu rendah, dan pergelangan tangan tertekuk memicu Musculoskeletal Disorders (MSDs) seperti Low Back Pain, Forward Head Posture, dan Carpal Tunnel Syndrome.",
+      std: "Permenkes No. 48/2016: Kursi kerja wajib memiliki sandaran pinggang (lumbar support) yang dapat disetel, sudut lutut 90° menapak lantai, sudut siku 90°–100°, dan puncak monitor sejajar garis pandang mata."
+    },
+    {
+      title: "2. Electrical & Fire Hazard (Bahaya Kelistrikan & Kebakaran Kantor)",
+      risk: "Kabel komputer melintang bebas di lantai memicu risiko tersandung (trip hazard), sedangkan stopkontak bertumpuk memicu korsleting kebakaran.",
+      std: "Permenkes No. 48/2016: Wajib menggunakan pelindung kabel (cable snake / floor trunking), menyediakan APAR tipe Clean Agent/CO2 khusus ruang komputer & arsip, serta rambu jalur evakuasi menyala (photoluminescent)."
+    },
+    {
+      title: "3. Physical Hazard (Pencahayaan, Silau Monitor & Suhu Ruang)",
+      risk: "Pencahayaan redup (< 300 Lux) atau pantulan silau jendela/lampu pada layar (glare) memicu kelelahan mata kronis (Computer Vision Syndrome) dan sakit kepala.",
+      std: "Permenkes No. 48/2016: Tingkat pencahayaan ruang administrasi komputer minimal 300 Lux tanpa silau pantulan, suhu ruangan ideal 23°C – 26°C, dan kelembaban 40% – 60%."
+    },
+    {
+      title: "4. Chemical & Indoor Air Hazard (Debu Toner & Kualitas Udara)",
+      risk: "Partikel halus serbuk toner mesin fotokopi/printer laser serta ventilasi AC yang kotor dapat memicu iritasi saluran pernapasan dan Sick Building Syndrome.",
+      std: "Permenkes No. 48/2016: Mesin fotokopi/printer berkapasitas besar ditempatkan pada area berventilasi baik/exhaust fan, serta pembersihan filter AC secara berkala."
+    }
+  ];
+  function showHazard(idx) {
+    document.querySelectorAll('.hazard-card').forEach((c, i) => c.classList.toggle('active', i === idx));
+    const d = hazardData[idx];
+    document.getElementById('hazardDetailBox').innerHTML = `
+      <h3 style="color:#991b1b; font-size:1.02rem; margin-bottom:6px;">${d.title}</h3>
+      <p style="font-size:0.89rem; margin-bottom:8px;"><strong>Dampak Risiko K3:</strong> ${d.risk}</p>
+      <p style="font-size:0.88rem; background:#f0fdfa; padding:10px; border-radius:8px; border:1px solid #99f6e4; color:#0f766e;"><strong>Standar Pengendalian (${d.std.split(':')[0]}):</strong> ${d.std.split(':')[1]}</p>
+    `;
+  }
+  showHazard(0);
+
+  // Real-Time Ergonomic Simulator
+  function updateSimulator() {
+    const dist = Number(document.getElementById('slDist').value);
+    const elbow = Number(document.getElementById('slElbow').value);
+    const knee = Number(document.getElementById('slKnee').value);
+    const lux = Number(document.getElementById('slLux').value);
+    const temp = Number(document.getElementById('slTemp').value);
+
+    document.getElementById('valDist').textContent = `${dist} cm`;
+    document.getElementById('valElbow').textContent = `${elbow}°`;
+    document.getElementById('valKnee').textContent = `${knee}°`;
+    document.getElementById('valLux').textContent = `${lux} Lux`;
+    document.getElementById('valTemp').textContent = `${temp} °C`;
+
+    // Check individual compliance
+    const okDist = (dist >= 45 && dist <= 70);
+    const okElbow = (elbow >= 90 && elbow <= 100);
+    const okKnee = (knee >= 85 && knee <= 95);
+    const okLux = (lux >= 300 && lux <= 500);
+    const okTemp = (temp >= 23 && temp <= 26);
+
+    const passed = [okDist, okElbow, okKnee, okLux, okTemp].filter(Boolean).length;
+    const score = passed * 20;
+
+    // Update SVG positions & colors
+    const monX = 220 + Math.round((dist - 25) * 1.3);
+    document.getElementById('svgMonitor').setAttribute('transform', `translate(${monX}, 82)`);
+    const sightLine = document.getElementById('svgSightLine');
+    sightLine.setAttribute('x2', monX);
+    sightLine.setAttribute('stroke', okDist ? '#34d399' : '#f87171');
+    const distLabel = document.getElementById('svgDistLabel');
+    distLabel.setAttribute('x', Math.round((158 + monX) / 2) - 12);
+    distLabel.setAttribute('fill', okDist ? '#34d399' : '#f87171');
+    distLabel.textContent = `${dist} cm`;
+
+    // Update Arm angle visually
+    const handY = 140 + Math.round((elbow - 95) * 0.65);
+    document.getElementById('svgArm').setAttribute('points', `145,102 145,140 205,${handY}`);
+    document.getElementById('svgArm').setAttribute('stroke', okElbow ? '#34d399' : '#f87171');
+
+    // Update Leg angle visually
+    const footX = 195 + Math.round((knee - 90) * 0.9);
+    document.getElementById('svgLeg').setAttribute('points', `142,162 195,162 ${footX},235`);
+    document.getElementById('svgLeg').setAttribute('stroke', okKnee ? '#34d399' : '#f87171');
+
+    // Update Light Cone & Env Text
+    const alpha = Math.min(0.35, Math.max(0.04, lux / 1800));
+    document.getElementById('svgLightCone').setAttribute('fill', lux > 500 ? `rgba(248, 113, 113, ${alpha})` : `rgba(250, 204, 21, ${alpha})`);
+    document.getElementById('svgEnvText').textContent = `Cahaya: ${lux} Lux | Suhu: ${temp}°C`;
+
+    // Update Badge & Diagnosis
+    const badge = document.getElementById('ergoScoreBadge');
+    const diagBox = document.getElementById('simDiagnosisBox');
+    let issues = [];
+    if (!okDist) issues.push(dist < 45 ? "Jarak monitor terlalu dekat (< 45 cm) memicu ketegangan mata." : "Jarak monitor terlalu jauh (> 70 cm) memicu leher condong ke depan.");
+    if (!okElbow) issues.push(`Sudut siku (${elbow}°) di luar rentang ideal 90°–100° (risiko nyeri bahu/pergelangan tangan).`);
+    if (!okKnee) issues.push(`Sudut lutut (${knee}°) tidak 90° (sirkulasi darah kaki terhambat / kaki menggantung).`);
+    if (!okLux) issues.push(lux < 300 ? "Pencahayaan redup (< 300 Lux) memicu mata cepat lelah." : "Pencahayaan berlebih (> 500 Lux) berisiko menimbulkan silau (glare).");
+    if (!okTemp) issues.push(`Suhu ruang (${temp}°C) di luar standar nyaman 23°C–26°C.`);
+
+    if (score === 100) {
+      badge.className = "status-badge st-ok";
+      badge.textContent = "Skor Ergonomi: 100% (IDEAL)";
+      diagBox.innerHTML = `<strong style="color:#34d399;">✓ Hasil Kalibrasi:</strong> Seluruh parameter memenuhi standar Permenkes No. 48 Tahun 2016. Risiko kelelahan mata dan MSDs minimal!`;
+    } else if (score >= 60) {
+      badge.className = "status-badge st-warn";
+      badge.textContent = `Skor Ergonomi: ${score}% (PERLU PENYESUAIAN)`;
+      diagBox.innerHTML = `<strong style="color:#fbbf24;">⚠ Peringatan Ergonomi:</strong><ul style="padding-left:18px; margin-top:4px;">${issues.map(i => `<li>${i}</li>`).join('')}</ul>`;
+    } else {
+      badge.className = "status-badge st-bad";
+      badge.textContent = `Skor Ergonomi: ${score}% (RISIKO TINGGI MSDs)`;
+      diagBox.innerHTML = `<strong style="color:#f87171;">✕ Bahaya Ergonomi Tinggi:</strong><ul style="padding-left:18px; margin-top:4px;">${issues.map(i => `<li>${i}</li>`).join('')}</ul>`;
+    }
+  }
+
+  // LKPD 3 Live Evaluation
+  function evalLkpd3() {
+    const d = Number(document.getElementById('m_dist').value);
+    const resDist = document.getElementById('res_dist');
+    if (d > 0) {
+      if (d >= 45 && d <= 70) {
+        resDist.innerHTML = `<span class="status-badge st-ok">[✓] Sesuai Standar</span><br><small>Jarak pandang aman bagi kesehatan mata.</small>`;
+      } else {
+        resDist.innerHTML = `<span class="status-badge st-bad">[!] Tidak Sesuai</span><br><small>Dampak: ${d < 45 ? 'Risiko Computer Vision Syndrome (mata lelah).' : 'Risiko Forward Head Posture (leher mencondong).'}</small>`;
+      }
+    }
+
+    const e = Number(document.getElementById('m_elbow').value);
+    const resElbow = document.getElementById('res_elbow');
+    if (e > 0) {
+      if (e >= 90 && e <= 100) {
+        resElbow.innerHTML = `<span class="status-badge st-ok">[✓] Sesuai Standar</span><br><small>Posisi lengan rileks netral.</small>`;
+      } else {
+        resElbow.innerHTML = `<span class="status-badge st-bad">[!] Tidak Sesuai</span><br><small>Dampak: Ketegangan otot bahu & risiko Carpal Tunnel Syndrome.</small>`;
+      }
+    }
+
+    const ch = document.getElementById('m_chair').value;
+    const resChair = document.getElementById('res_chair');
+    if (ch === 'ok') {
+      resChair.innerHTML = `<span class="status-badge st-ok">[✓] Sesuai Standar</span><br><small>Distribusi beban paha dan punggung seimbang.</small>`;
+    } else if (ch === 'high') {
+      resChair.innerHTML = `<span class="status-badge st-bad">[!] Tidak Sesuai</span><br><small>Dampak: Tekanan pada paha bawah menghambat aliran darah (perlu footrest).</small>`;
+    } else if (ch === 'low') {
+      resChair.innerHTML = `<span class="status-badge st-bad">[!] Tidak Sesuai</span><br><small>Dampak: Tekanan berlebih pada tulang duduk & Low Back Pain.</small>`;
+    }
+
+    const lg = document.getElementById('m_light').value;
+    const resLight = document.getElementById('res_light');
+    if (lg === 'ok') {
+      resLight.innerHTML = `<span class="status-badge st-ok">[✓] Sesuai Standar</span><br><small>Kenyamanan visual terjaga optimal.</small>`;
+    } else if (lg === 'dim') {
+      resLight.innerHTML = `<span class="status-badge st-bad">[!] Tidak Sesuai</span><br><small>Dampak: Akomodasi mata dipaksa bekerja keras, memicu sakit kepala.</small>`;
+    } else if (lg === 'glare') {
+      resLight.innerHTML = `<span class="status-badge st-bad">[!] Tidak Sesuai</span><br><small>Dampak: Silau (glare) menurunkan ketajaman baca & memicu iritasi mata.</small>`;
+    }
+  }
+
+  // Export LKPD 3 CSV & TXT
+  function exportLkpd3CSV() {
+    const rows = [
+      ["Komponen Ergonomi", "Standar Regulasi (Permenkes 48/2016)", "Hasil Ukur / Kondisi Nyata", "Status & Dampak Kesehatan"],
+      ["Jarak Mata ke Layar Monitor", "45 cm - 70 cm sejajar pandangan", (document.getElementById('m_dist').value || "-") + " cm", document.getElementById('res_dist').innerText.replace(/\n/g, " ")],
+      ["Sudut Siku & Lengan Mengetik", "Sudut 90 - 100 derajat", (document.getElementById('m_elbow').value || "-") + " derajat", document.getElementById('res_elbow').innerText.replace(/\n/g, " ")],
+      ["Tinggi Kursi & Kaki Menapak", "Paha horizontal & kaki menapak rata", document.getElementById('m_chair').options[document.getElementById('m_chair').selectedIndex].text, document.getElementById('res_chair').innerText.replace(/\n/g, " ")],
+      ["Pencahayaan Workstation", "Minimal 300 Lux tanpa silau", document.getElementById('m_light').options[document.getElementById('m_light').selectedIndex].text, document.getElementById('res_light').innerText.replace(/\n/g, " ")]
+    ];
+    const csv = rows.map(r => r.map(v => `"${v.replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "LKPD3_Investigasi_Ergonomi_XI_MPLB.csv";
+    a.click();
+  }
+
+  function exportLkpd3TXT() {
+    const lines = [
+      "LKPD DIGITAL PERTEMUAN 3 — INVESTIGASI ERGONOMI & K3 PERKANTORAN",
+      "=================================================================",
+      "Kelompok : " + (document.getElementById('lkpd3Group').value || "-"),
+      "Lokasi   : " + (document.getElementById('lkpd3Loc').value || "-"),
+      "",
+      "1. Jarak Mata ke Monitor  : " + (document.getElementById('m_dist').value || "-") + " cm -> " + document.getElementById('res_dist').innerText.replace(/\n/g, " "),
+      "2. Sudut Siku Mengetik    : " + (document.getElementById('m_elbow').value || "-") + "° -> " + document.getElementById('res_elbow').innerText.replace(/\n/g, " "),
+      "3. Tinggi Kursi & Kaki    : " + document.getElementById('m_chair').options[document.getElementById('m_chair').selectedIndex].text + " -> " + document.getElementById('res_chair').innerText.replace(/\n/g, " "),
+      "4. Pencahayaan Workstation: " + document.getElementById('m_light').options[document.getElementById('m_light').selectedIndex].text + " -> " + document.getElementById('res_light').innerText.replace(/\n/g, " "),
+      "",
+      "SOLUSI ERGONOMI & MITIGASI GANGGUAN OTOT (MSDs):",
+      document.getElementById('lkpd3Solusi').value || "-"
+    ];
+    const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "Hasil_LKPD3_Ergonomi_K3_MPLB.txt";
+    a.click();
+  }
+
+  // Quiz Pertemuan 3
+  const quiz3Data = [
+    {
+      q: "1. Menurut Permenkes No. 48 Tahun 2016, jarak pandang mata ke layar monitor komputer dan sudut siku mengetik yang ideal adalah...",
+      opts: [
+        "Jarak 20–30 cm dengan sudut siku 45°",
+        "Jarak 45–70 cm dengan sudut siku 90°–100°",
+        "Jarak 90–120 cm dengan sudut siku 140°",
+        "Jarak bebas asalkan kursi empuk"
+      ],
+      ans: 1,
+      exp: "Tepat! Standar jarak pandang adalah 45–70 cm (puncak monitor sejajar mata) dan sudut siku rileks pada 90°–100°."
+    },
+    {
+      q: "2. Seorang staf administrasi sering mengetik dengan posisi pergelangan tangan tertekuk dan meja terlalu tinggi. Gangguan kesehatan saraf yang paling berisiko dialami adalah...",
+      opts: ["Carpal Tunnel Syndrome (CTS)", "Asthma Bronkiale", "Vertigo Akut", "Tinnitus"],
+      ans: 0,
+      exp: "Benar! Tekanan berulang pada saraf medianus di pergelangan tangan memicu Carpal Tunnel Syndrome (CTS)."
+    },
+    {
+      q: "3. Jenis Alat Pemadam Api Ringan (APAR) yang paling direkomendasikan untuk ruang arsip dokumen penting dan ruang komputer kantor karena tidak meninggalkan residu serbuk perusak elektronik adalah...",
+      opts: ["APAR Tipe Air (Water)", "APAR Tipe Busa (Foam)", "APAR Tipe Clean Agent / CO2", "Pasir basah"],
+      ans: 2,
+      exp: "Tepat! APAR Clean Agent atau CO2 memadamkan api listrik/arsip tanpa merusak komponen elektronik maupun kertas dokumen."
+    },
+    {
+      q: "4. Prinsip filosofis utama dalam penerapan ergonomi sarana dan prasarana kantor adalah...",
+      opts: [
+        "Manusia harus melatih tubuhnya menyesuaikan ukuran perabot standar pabrik",
+        "Sarana dan fasilitas kerja harus dirancang menyesuaikan anatomi serta keterbatasan fisik manusia",
+        "Perabot kantor harus dipilih yang paling murah tanpa mempertimbangkan sandaran punggung",
+        "Ergonomi hanya diperlukan untuk ruang kerja pimpinan"
+      ],
+      ans: 1,
+      exp: "Benar! Ergonomi berprinsip 'fitting the task/tool to the human' — sarana menyesuaikan anatomi manusia."
+    }
+  ];
+
+  const q3Box = document.getElementById('quiz3Container');
+  quiz3Data.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-item';
+    div.innerHTML = `<p>${item.q}</p>` + item.opts.map((opt, oIdx) =>
+      `<label class="quiz-opt"><input type="radio" name="q3_${idx}" value="${oIdx}"> ${opt}</label>`
+    ).join('') + `<div class="feedback" id="fb3_${idx}"></div>`;
+    q3Box.appendChild(div);
+  });
+
+  function gradeQuiz3() {
+    let score = 0;
+    quiz3Data.forEach((item, idx) => {
+      const chosen = document.querySelector(`input[name="q3_${idx}"]:checked`);
+      const fb = document.getElementById(`fb3_${idx}`);
+      if (chosen && Number(chosen.value) === item.ans) {
+        score++;
+        fb.className = 'feedback ok';
+        fb.textContent = "✓ Benar! " + item.exp;
+      } else {
+        fb.className = 'feedback no';
+        fb.textContent = "✗ Kurang tepat. " + item.exp;
+      }
+    });
+    const pct = Math.round((score / quiz3Data.length) * 100);
+    document.getElementById('quiz3ScoreBox').textContent = `Skor Evaluasi Pertemuan 3: ${pct} / 100 (${score} dari ${quiz3Data.length} soal benar)`;
+  }
+</script>
+</body>
+</html>
