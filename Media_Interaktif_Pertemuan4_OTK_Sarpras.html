@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Pembelajaran Interaktif — OTK Sarpras XI MPLB (Pertemuan 4)</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --teal: #0f766e;
+      --teal-soft: #ccfbf1;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --danger: #dc2626;
+      --danger-soft: #fee2e2;
+      --success: #16a34a;
+      --success-soft: #dcfce7;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0f766e 100%);
+      color: #fff;
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.22);
+    }
+    .header-top {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.3px; }
+    .brand p { font-size: 0.8rem; color: #cbd5e1; }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Navigation Stepper */
+    nav.stepper {
+      max-width: 1200px;
+      margin: 18px auto 0;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .step-btn {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .step-btn span { display: block; font-size: 0.7rem; font-weight: 500; margin-top: 2px; }
+    .step-btn:hover { border-color: var(--primary-light); color: var(--primary); }
+    .step-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
+    }
+    .step-btn.active span { color: #dbeafe; }
+
+    /* Main Container */
+    main { max-width: 1200px; margin: 18px auto 40px; padding: 0 16px; }
+    .section-panel { display: none; animation: fadeIn 0.3s ease; }
+    .section-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 18px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+    .card-title { font-size: 1.12rem; font-weight: 700; color: var(--primary); }
+    .pill { padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; }
+    .pill-mindful { background: #e0e7ff; color: #1e40af; }
+    .pill-meaningful { background: var(--teal-soft); color: var(--teal); }
+    .pill-joyful { background: var(--amber-soft); color: var(--amber); }
+    .pill-danger { background: var(--danger-soft); color: var(--danger); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    @media (max-width: 920px) {
+      nav.stepper { grid-template-columns: 1fr 1fr; }
+      .grid-2, .grid-3, .grid-5 { grid-template-columns: 1fr; }
+    }
+
+    /* Buttons */
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn:hover { background: #1d4ed8; }
+    .btn-teal { background: var(--teal); }
+    .btn-teal:hover { background: #115e59; }
+    .btn-amber { background: var(--amber); }
+    .btn-amber:hover { background: #b45309; }
+    .btn-outline { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); }
+    .btn-outline:hover { background: #eff6ff; }
+
+    /* Auditor Badge & Ethics */
+    .auditor-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .ethics-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.86rem;
+      cursor: pointer;
+    }
+
+    /* Target Area Cards */
+    .area-card {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 14px;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: 0.2s;
+      text-align: center;
+    }
+    .area-card:hover, .area-card.active {
+      border-color: var(--teal);
+      background: #f0fdfa;
+      box-shadow: 0 4px 10px rgba(15, 118, 110, 0.12);
+    }
+    .area-detail {
+      margin-top: 14px;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-left: 5px solid var(--teal);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    /* LKPD 4 Audit Checklist Table */
+    table.lkpd-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    table.lkpd-table th {
+      background: var(--primary);
+      color: #fff;
+      text-align: left;
+      padding: 9px 10px;
+      font-size: 0.82rem;
+    }
+    table.lkpd-table td {
+      border: 1px solid #cbd5e1;
+      padding: 8px;
+      vertical-align: top;
+      font-size: 0.83rem;
+    }
+    input[type="text"], select, textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 7px 8px;
+      font-size: 0.83rem;
+      background: #fff;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary-light); background: #f8fafc; }
+
+    /* Executive Audit Dashboard */
+    .kpi-card {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .kpi-val { font-size: 2rem; font-weight: 800; color: var(--primary); margin: 4px 0; }
+    .kpi-label { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+
+    .bar-wrap { background: #e2e8f0; border-radius: 999px; height: 18px; overflow: hidden; margin: 10px 0; }
+    .bar-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; }
+
+    .photo-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .photo-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 6px;
+      background: #fff;
+      text-align: center;
+      font-size: 0.78rem;
+    }
+    .photo-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 6px; }
+
+    /* Rubric & Quiz */
+    .rubric-select {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1.5px solid #cbd5e1;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .quiz-item { margin-bottom: 14px; padding: 14px; border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc; }
+    .quiz-item p { font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+    .quiz-opt {
+      display: block;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .quiz-opt:hover { background: #eff6ff; border-color: var(--primary-light); }
+    .feedback { margin-top: 8px; font-size: 0.82rem; font-weight: 600; display: none; padding: 8px 10px; border-radius: 6px; }
+    .feedback.ok { background: #dcfce7; color: #166534; display: block; }
+    .feedback.no { background: #fee2e2; color: #991b1b; display: block; }
+
+    .nav-footer { display: flex; justify-content: space-between; margin-top: 16px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="brand">
+      <h1>OTK SARANA & PRASARANA — PERTEMUAN 4 (PROYEK AUDIT)</h1>
+      <p>Eksekusi Audit Kepatuhan K3 & Penilaian Kelayakan Fisik • SMK IPTEK AL-IKHWAN • Kelas XI MPLB</p>
+    </div>
+    <div class="badges">
+      <span class="badge">Alokasi: 4 × 45 Menit</span>
+      <span class="badge">Peran: Junior K3 Auditor</span>
+      <span class="badge">Guru: Tarma Suhendar, S.Kom</span>
+    </div>
+  </div>
+</header>
+
+<nav class="stepper" role="tablist">
+  <button class="step-btn active" onclick="goTab(0)">1. Briefing Auditor<span>Peran & Etika Audit (25')</span></button>
+  <button class="step-btn" onclick="goTab(1)">2. Target Observasi<span>5 Zona Audit Sekolah</span></button>
+  <button class="step-btn" onclick="goTab(2)">3. LKPD Digital 4<span>Checklist Audit & Bukti Foto</span></button>
+  <button class="step-btn" onclick="goTab(3)">4. Dashboard Audit<span>Sintesis Laporan Eksekutif</span></button>
+  <button class="step-btn" onclick="goTab(4)">5. Uji Publik & Akhir Unit<span>Rubrik, Sumatif & ATP Lanjut</span></button>
+</nav>
+
+<main>
+  <!-- ==================== TAB 1: BRIEFING JUNIOR K3 AUDITOR ==================== -->
+  <section class="section-panel active" id="tab-0">
+    <div class="auditor-banner">
+      <div style="max-width:720px;">
+        <span class="pill" style="background:rgba(255,255,255,0.18); color:#fff;">Aktivasi Peran Profesional Konsultan</span>
+        <h2 style="font-size:1.3rem; margin-top:8px;">Selamat Bertugas, Tim “Junior K3 Auditor” XI MPLB!</h2>
+        <p style="font-size:0.9rem; color:#dbeafe; margin-top:6px;">Hari ini ruang kelas kita beroperasi sebagai <strong>Lembaga Konsultan Audit Independen Sarana & Prasarana Perkantoran</strong>. Tugas Anda adalah melakukan inspeksi lapangan secara objektif mengacu pada <strong>Permenkes No. 48 Tahun 2016</strong> dan <strong>PermenPAN-RB No. 48 Tahun 2013</strong>.</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); padding:14px 18px; border-radius:12px; min-width:240px;">
+        <div style="font-size:0.75rem; color:#93c5fd; font-weight:700;">ID KARTU TUGAS AUDITOR</div>
+        <div id="badgeTeamName" style="font-size:1.05rem; font-weight:800; margin-top:2px;">Tim Auditor Independen</div>
+        <div id="badgeTargetArea" style="font-size:0.82rem; color:#ccfbf1; margin-top:2px;">Zona: Pilih di Tab 2</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Pakta Integritas & Kode Etik Auditor Lapangan</h2>
+          <span class="pill pill-mindful">Wajib Dipatuhi</span>
+        </div>
+        <p style="font-size:0.86rem; margin-bottom:10px;">Centang seluruh komitmen etika berikut sebelum kelompok Anda diizinkan memasuki ruang target audit di sekolah:</p>
+        <label class="ethics-item"><input type="checkbox" class="ethic-cb" onchange="checkEthics()" /> <span><strong>1. Tata Krama & Izin Resmi:</strong> Mengetuk pintu, mengucapkan salam, dan meminta izin kepada penanggung jawab ruangan sebelum melakukan inspeksi.</span></label>
+        <label class="ethics-item"><input type="checkbox" class="ethic-cb" onchange="checkEthics()" /> <span><strong>2. Objektivitas Berbasis Bukti:</strong> Mencatat kondisi nyata apa adanya tanpa melebih-lebihkan atau menutupi temuan bahaya.</span></label>
+        <label class="ethics-item"><input type="checkbox" class="ethic-cb" onchange="checkEthics()" /> <span><strong>3. Tidak Mengganggu Operasional:</strong> Melakukan pengamatan dengan tenang tanpa mengganggu pegawai/guru/siswa yang sedang bekerja.</span></label>
+        <label class="ethics-item"><input type="checkbox" class="ethic-cb" onchange="checkEthics()" /> <span><strong>4. Dokumentasi Foto Etis:</strong> Memotret fokus pada kondisi fisik sarpras/hazard (kabel, APAR, jalur evakuasi, kursi), bukan privasi dokumen rahasia.</span></label>
+        <p id="ethicsStatus" style="margin-top:8px; font-size:0.85rem; font-weight:700; color:#d97706;">Status Izin Lapangan: Menunggu persetujuan 4 poin kode etik...</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Alur Eksekusi Audit (130 Menit Inti)</h2>
+          <span class="pill pill-meaningful">Inquiry Lapangan</span>
+        </div>
+        <ol style="padding-left:20px; font-size:0.89rem;">
+          <li style="margin-bottom:8px;"><strong>Tahap 1 — Investigasi Lapangan Otentik (40 Menit):</strong> Tim menuju ruang target observasi di lingkungan SMK IPTEK AL-IKHWAN.</li>
+          <li style="margin-bottom:8px;"><strong>Tahap 2 — Pengumpulan Fakta & Bukti Fisik (30 Menit):</strong> Mengisi <em>Checklist Audit K3</em> di LKPD Digital 4 & mengambil foto bukti temuan.</li>
+          <li style="margin-bottom:8px;"><strong>Tahap 3 — Triangulasi Data & Sintesis Laporan (30 Menit):</strong> Kembali ke Lab Komputer untuk menyusun Dashboard Laporan Audit Eksekutif.</li>
+          <li><strong>Tahap 4 & 5 — Uji Publik & Refleksi Solutif (30 Menit):</strong> Panel presentasi hasil audit di hadapan rekan sejawat dan guru.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <span></span>
+      <button class="btn" onclick="goTab(1)">Lanjut ke Tahap 2: Pilih Zona Target Audit →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 2: 5 TARGET ZONA OBSERVASI ==================== -->
+  <section class="section-panel" id="tab-1">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Tahap 1 Inquiry: Penetapan Zona Target Investigasi Lapangan</h2>
+        <span class="pill pill-mindful">Memahami Konteks Ruangan</span>
+      </div>
+      <p style="font-size:0.9rem; margin-bottom:14px;">Klik salah satu dari <strong>5 area target observasi</strong> sesuai pembagian kelompok Anda untuk melihat fokus titik kritis K3 yang harus diperiksa:</p>
+
+      <div class="grid-5">
+        <div class="area-card active" id="ar-0" onclick="selectArea(0)">
+          <div style="font-size:1.7rem;">🗂️</div>
+          <strong style="font-size:0.85rem;">1. Ruang Tata Usaha</strong>
+        </div>
+        <div class="area-card" id="ar-1" onclick="selectArea(1)">
+          <div style="font-size:1.7rem;">👩‍🏫</div>
+          <strong style="font-size:0.85rem;">2. Ruang Guru</strong>
+        </div>
+        <div class="area-card" id="ar-2" onclick="selectArea(2)">
+          <div style="font-size:1.7rem;">💻</div>
+          <strong style="font-size:0.85rem;">3. Lab MPLB</strong>
+        </div>
+        <div class="area-card" id="ar-3" onclick="selectArea(3)">
+          <div style="font-size:1.7rem;">📚</div>
+          <strong style="font-size:0.85rem;">4. Perpustakaan</strong>
+        </div>
+        <div class="area-card" id="ar-4" onclick="selectArea(4)">
+          <div style="font-size:1.7rem;">🛎️</div>
+          <strong style="font-size:0.85rem;">5. Front Office Sekolah</strong>
+        </div>
+      </div>
+
+      <div class="area-detail" id="areaDetailBox"></div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(0)">← Sebelumnya</button>
+      <button class="btn" onclick="goTab(2)">Lanjut ke Tahap 3: LKPD Digital 4 (Checklist Audit) →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 3: LKPD DIGITAL PERTEMUAN 4 ==================== -->
+  <section class="section-panel" id="tab-2">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">LKPD Digital Pertemuan 4: Checklist Audit K3 & Kelayakan Fasilitas Fisik</h2>
+        <span class="pill pill-meaningful">Mengaplikasi (Pengumpulan Bukti)</span>
+      </div>
+
+      <div class="grid-3" style="margin-bottom:12px;">
+        <div>
+          <label style="font-size:0.82rem; font-weight:700;">Nama Kelompok Auditor:</label>
+          <input type="text" id="auditorGroup" placeholder="Contoh: Kelompok 1 — Junior Auditor" oninput="syncAuditDashboard()" />
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:700;">Lokasi Audit Target:</label>
+          <select id="auditLocation" onchange="syncAuditDashboard()">
+            <option value="Ruang Tata Usaha">Ruang Tata Usaha</option>
+            <option value="Ruang Guru">Ruang Guru</option>
+            <option value="Laboratorium MPLB">Laboratorium MPLB</option>
+            <option value="Perpustakaan Sekolah">Perpustakaan Sekolah</option>
+            <option value="Front Office Sekolah">Front Office Sekolah</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:700;">Tanggal Inspeksi:</label>
+          <input type="text" id="auditDate" value="Pertemuan Ke-4 — Semester Ganjil 2026/2027" oninput="syncAuditDashboard()" />
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="lkpd-table" id="auditTable">
+          <thead>
+            <tr>
+              <th style="width:5%;">No</th>
+              <th style="width:24%;">Item Audit Keselamatan & Kesehatan</th>
+              <th style="width:15%;">Status Kepatuhan</th>
+              <th style="width:28%;">Fakta Lapangan / Temuan Spesifik</th>
+              <th style="width:28%;">Tindakan Korektif Direkomendasikan</th>
+            </tr>
+          </thead>
+          <tbody id="auditTbody">
+            <tr>
+              <td>1</td>
+              <td><strong>Kerapian instalasi kabel (tidak melintang bebas)</strong></td>
+              <td>
+                <select class="audit-status" onchange="syncAuditDashboard()">
+                  <option value="Ya">[✓] Ya (Patuh)</option>
+                  <option value="Tidak" selected>[✕] Tidak (Temuan)</option>
+                </select>
+              </td>
+              <td><input type="text" class="audit-fact" placeholder="Catat fakta lapangan..." /></td>
+              <td><input type="text" class="audit-rec" value="Pemasangan ducting / cable protector pada lantai & meja." /></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Ketersediaan & keterjangkauan APAR</strong></td>
+              <td>
+                <select class="audit-status" onchange="syncAuditDashboard()">
+                  <option value="Ya">[✓] Ya (Patuh)</option>
+                  <option value="Tidak">[✕] Tidak (Temuan)</option>
+                </select>
+              </td>
+              <td><input type="text" class="audit-fact" placeholder="Catat kondisi & tanggal kadaluarsa APAR..." /></td>
+              <td><input type="text" class="audit-rec" value="Pemasangan penanda APAR & jadwal isi ulang berkala." /></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Jalur evakuasi darurat bebas dari halangan</strong></td>
+              <td>
+                <select class="audit-status" onchange="syncAuditDashboard()">
+                  <option value="Ya">[✓] Ya (Patuh)</option>
+                  <option value="Tidak">[✕] Tidak (Temuan)</option>
+                </select>
+              </td>
+              <td><input type="text" class="audit-fact" placeholder="Catat kondisi pintu & koridor evakuasi..." /></td>
+              <td><input type="text" class="audit-rec" value="Pemindahan tumpukan kardus/perabot penghalang jalur." /></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Kondisi fisik perabot meja dan kursi kerja</strong></td>
+              <td>
+                <select class="audit-status" onchange="syncAuditDashboard()">
+                  <option value="Ya">[✓] Ya (Patuh)</option>
+                  <option value="Tidak">[✕] Tidak (Temuan)</option>
+                </select>
+              </td>
+              <td><input type="text" class="audit-fact" placeholder="Catat kelayakan hidrolik, sandaran, sisi meja..." /></td>
+              <td><input type="text" class="audit-rec" value="Perbaikan hidrolik kursi / amplas & pelindung sisi tajam." /></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>Sirkulasi udara & kebersihan ventilasi AC</strong></td>
+              <td>
+                <select class="audit-status" onchange="syncAuditDashboard()">
+                  <option value="Ya">[✓] Ya (Patuh)</option>
+                  <option value="Tidak">[✕] Tidak (Temuan)</option>
+                </select>
+              </td>
+              <td><input type="text" class="audit-fact" placeholder="Catat suhu ruang, bau, & kebersihan filter..." /></td>
+              <td><input type="text" class="audit-rec" value="Jadwal service AC berkala & sanitasi filter udara." /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:10px;">
+        <button class="btn btn-outline" onclick="addAuditRow()">+ Tambah Item Temuan Audit Tambahan</button>
+      </div>
+
+      <div style="margin-top:14px; background:#f8fafc; padding:14px; border-radius:10px; border:1px dashed #94a3b8;">
+        <label style="font-size:0.86rem; font-weight:700; color:#1e3a8a;">📸 Lampirkan Foto Bukti Temuan Lapangan (Opsional — Ditampilkan di Dashboard Laporan):</label>
+        <input type="file" id="photoUpload" accept="image/*" multiple style="margin-top:6px;" onchange="previewAuditPhotos(event)" />
+        <div class="photo-preview-grid" id="photoGrid"></div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label style="font-size:0.88rem; font-weight:700; color:#1e3a8a;">Ruang Jawaban Kesimpulan Audit & Rancangan Presentasi Eksekutif Pertemuan 4:</label>
+        <textarea id="auditConclusion" rows="3" style="margin-top:6px;" oninput="syncAuditDashboard()" placeholder="Tuliskan ringkasan eksekutif kelayakan ruangan dan prioritas perbaikan paling mendesak..."></textarea>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(1)">← Sebelumnya</button>
+      <button class="btn btn-teal" onclick="goTab(3)">Lihat Dashboard Laporan Eksekutif →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 4: DASHBOARD LAPORAN AUDIT EKSEKUTIF ==================== -->
+  <section class="section-panel" id="tab-3">
+    <div class="card" id="printableDashboard">
+      <div class="card-header">
+        <div>
+          <span class="pill pill-meaningful">Triangulasi Data & Sintesis Laporan</span>
+          <h2 class="card-title" style="margin-top:4px;">DASHBOARD LAPORAN AUDIT K3 & KELAYAKAN SARPRAS</h2>
+          <p id="dashSubtitle" style="font-size:0.85rem; color:#475569;">Lokasi: Ruang Tata Usaha • Auditor: Tim Junior K3 Auditor</p>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-teal" onclick="exportAuditCSV()">📊 Unduh Data Audit (.csv)</button>
+          <button class="btn" onclick="exportAuditTXT()">💾 Unduh Laporan Eksekutif (.txt)</button>
+          <button class="btn btn-outline" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="kpi-card">
+          <div class="kpi-label">INDEKS KEPATUHAN K3 RUANGAN</div>
+          <div class="kpi-val" id="kpiScore">80%</div>
+          <div id="kpiBadge" class="pill pill-meaningful">LAYAK DENGAN CATATAN</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">ITEM MEMENUHI STANDAR (YA)</div>
+          <div class="kpi-val" id="kpiYes" style="color:#16a34a;">4</div>
+          <div class="kpi-label">Sesuai Permenkes 48/2016</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">TEMUAN KETIDAKSESUAIAN (TIDAK)</div>
+          <div class="kpi-val" id="kpiNo" style="color:#dc2626;">1</div>
+          <div class="kpi-label">Memerlukan Tindakan Korektif</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <div style="display:flex; justify-content:space-between; font-size:0.82rem; font-weight:700;">
+          <span>Grafik Tingkat Kepatuhan Fasilitas Fisik</span>
+          <span id="barPctLabel">80%</span>
+        </div>
+        <div class="bar-wrap"><div class="bar-fill" id="complianceBar" style="width:80%;"></div></div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <h3 style="font-size:0.98rem; color:#1e3a8a; margin-bottom:8px;">Matriks Temuan & Rekomendasi Perbaikan Prioritas</h3>
+        <div id="dashFindingsList" style="font-size:0.86rem;"></div>
+      </div>
+
+      <div style="margin-top:16px;" id="dashPhotoSection" hidden>
+        <h3 style="font-size:0.98rem; color:#1e3a8a; margin-bottom:6px;">Dokumentasi Bukti Temuan Lapangan</h3>
+        <div class="photo-preview-grid" id="dashPhotoGrid"></div>
+      </div>
+
+      <div style="margin-top:16px; background:#eff6ff; padding:14px; border-radius:10px; border-left:4px solid #1e3a8a;">
+        <strong style="color:#1e3a8a; font-size:0.9rem;">Kesimpulan Eksekutif Tim Auditor:</strong>
+        <p id="dashConclusionText" style="font-size:0.88rem; margin-top:4px; color:#1e293b;">Belum ada kesimpulan tertulis. Silakan lengkapi pada Tab 3 (LKPD Digital 4).</p>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(2)">← Kembali ke LKPD 4</button>
+      <button class="btn" onclick="goTab(4)">Lanjut ke Tahap 5: Uji Publik & Penutup Unit →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 5: UJI PUBLIK, RUBRIK & PENUTUP UNIT ==================== -->
+  <section class="section-panel" id="tab-4">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Tahap 4 & 5 Inquiry: Instrumen Penilaian Sejawat & Guru (4 Tingkat Capaian)</h2>
+        <span class="pill pill-joyful">Panel Presentasi Audit</span>
+      </div>
+      <p style="font-size:0.86rem; margin-bottom:12px;">Gunakan kalkulator rubrik resmi dari <strong>Skema Asesmen Pembelajaran Mendalam</strong> berikut saat kelompok mempresentasikan hasil audit di depan kelas:</p>
+
+      <div class="grid-2">
+        <div>
+          <label style="font-size:0.84rem; font-weight:700;">1. Analisis Regulasi Sarpras Kantor:</label>
+          <select class="rubric-select" id="rub1" onchange="calcRubric()">
+            <option value="65">Baru Berkembang (0–69): Hanya menyebut nomor aturan tanpa isi standar.</option>
+            <option value="75">Layak (70–79): Menjelaskan garis besar aturan pemerintah tanpa komparasi.</option>
+            <option value="85" selected>Cakap (80–89): Menganalisis perbandingan aturan publik & swasta dengan tepat.</option>
+            <option value="95">Mahir (90–100): Analisis holistik & merumuskan draft SOP kepatuhan sarpras.</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.84rem; font-weight:700;">2. Klasifikasi Sarana & Prasarana:</label>
+          <select class="rubric-select" id="rub2" onchange="calcRubric()">
+            <option value="65">Baru Berkembang (0–69): Sering keliru membedakan barang habis pakai vs aset.</option>
+            <option value="75">Layak (70–79): Mengelompokkan sarana dasar namun ragu mesin vs perabot.</option>
+            <option value="85" selected>Cakap (80–89): Tepat mengklasifikasi seluruh jenis barang & spesifikasinya.</option>
+            <option value="95">Mahir (90–100): Tajam hingga menganalisis siklus depresiasi & pemeliharaan.</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.84rem; font-weight:700;">3. Evaluasi Ergonomi & Bahaya K3:</label>
+          <select class="rubric-select" id="rub3" onchange="calcRubric()">
+            <option value="65">Baru Berkembang (0–69): Belum mampu menunjukkan parameter ergonomi berbahaya.</option>
+            <option value="75">Layak (70–79): Mengukur dimensi fisik namun belum mengaitkan risiko MSDs.</option>
+            <option value="85" selected>Cakap (80–89): Mengevaluasi workstation dengan Permenkes 48/2016 akurat.</option>
+            <option value="95">Mahir (90–100): Mendesain ulang layout ergonomis & memitigasi seluruh hazard.</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.84rem; font-weight:700;">4. Laporan & Presentasi Audit Sarpras:</label>
+          <select class="rubric-select" id="rub4" onchange="calcRubric()">
+            <option value="65">Baru Berkembang (0–69): Laporan tanpa data objektif dan tanpa bukti fisik.</option>
+            <option value="75">Layak (70–79): Memuat checklist namun solusi perbaikan masih umum.</option>
+            <option value="85" selected>Cakap (80–89): Terstruktur, memuat visual bukti temuan & solusi logis.</option>
+            <option value="95">Mahir (90–100): Berstandar industri konsultan GA/K3, memukau & berdampak nyata.</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; background:#f0fdfa; border:1px solid #99f6e4; border-radius:10px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <span style="font-weight:700; color:#0f766e;">Rata-Rata Nilai Autentik Panel Presentasi:</span>
+        <span id="rubricResult" style="font-size:1.15rem; font-weight:800; color:#1e3a8a;">85.0 — Predikat: CAKAP</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Refleksi Akhir Unit (Pertemuan 1–4) & Pengantar ATP Berikutnya</h2>
+        <span class="pill pill-mindful">Penutup Pembelajaran</span>
+      </div>
+      <p style="font-size:0.88rem; margin-bottom:8px;">Tuliskan refleksi transformasi wawasan Anda setelah menyelesaikan 4 pertemuan (dari sekadar pengguna fasilitas menjadi penilai kelayakan sarpras):</p>
+      <textarea rows="3" placeholder="Setelah mengikuti pembelajaran regulasi, klasifikasi, ergonomi, hingga audit lapangan K3, saya menyadari bahwa..."></textarea>
+
+      <div style="margin-top:14px; background:linear-gradient(135deg,#eff6ff 0%,#fef3c7 100%); padding:14px; border-radius:10px; border:1px solid #fde68a; font-size:0.88rem;">
+        <strong style="color:#1e3a8a;">🚀 Info Pembelajaran Lanjutan (ATP 11.2):</strong> Pada pertemuan selanjutnya, hasil temuan audit kerusakan/kekurangan fasilitas dari kelas Anda akan menjadi bahan dasar untuk mempelajari <strong>Analisis Kebutuhan & Perencanaan Pengadaan Sarana Prasarana Kantor (Penyusunan RKB/RKA)</strong>!
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(3)">← Sebelumnya</button>
+      <button class="btn btn-teal" onclick="goTab(0)">↺ Kembali ke Awal</button>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Navigation
+  function goTab(index) {
+    document.querySelectorAll('.section-panel').forEach((el, i) => el.classList.toggle('active', i === index));
+    document.querySelectorAll('.step-btn').forEach((btn, i) => btn.classList.toggle('active', i === index));
+    if (index === 3) syncAuditDashboard();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Ethics Check
+  function checkEthics() {
+    const total = document.querySelectorAll('.ethic-cb').length;
+    const checked = document.querySelectorAll('.ethic-cb:checked').length;
+    const st = document.getElementById('ethicsStatus');
+    if (checked === total) {
+      st.style.color = "#16a34a";
+      st.textContent = "✓ Izin Lapangan Aktif! Tim Auditor siap menuju zona observasi.";
+    } else {
+      st.style.color = "#d97706";
+      st.textContent = `Status Izin Lapangan: ${checked} dari ${total} komitmen etika disetujui...`;
+    }
+  }
+
+  // 5 Target Areas Data
+  const areaData = [
+    {
+      name: "Ruang Tata Usaha (TU) Sekolah",
+      focus: "Kepadatan arsip kertas, instalasi kabel komputer & printer administrasi, ketersediaan APAR ruang arsip, dan ergonomi kursi staf layanan.",
+      tip: "Periksa apakah tumpukan map/kardus arsip menghalangi akses pintu keluar atau stopkontak listrik."
+    },
+    {
+      name: "Ruang Guru",
+      focus: "Sirkulasi udara/ventilasi AC, intensitas pencahayaan meja kerja guru (≥ 300 Lux), jarak antar meja, dan kerapian kabel charger/laptop.",
+      tip: "Amati kenyamanan sandaran kursi kerja guru dan bebas hambatan pada koridor utama ruangan."
+    },
+    {
+      name: "Laboratorium Praktik MPLB",
+      focus: "Manajemen kabel jaringan & listrik bawah meja komputer (cable trunking), jarak monitor siswa, dan ketersediaan rambu jalur evakuasi.",
+      tip: "Pastikan tidak ada kabel terkelupas atau colokan bertumpuk melebihi kapasitas daya."
+    },
+    {
+      name: "Perpustakaan Sekolah",
+      focus: "Kestabilan rak buku tinggi (risiko roboh), kelembaban udara & pencahayaan area baca, serta keberadaan detektor asap / APAR.",
+      tip: "Periksa apakah jarak antar rak buku cukup leluasa untuk mobilitas pengunjung dan evakuasi darurat."
+    },
+    {
+      name: "Front Office / Resepsionis Sekolah",
+      focus: "Ergonomi meja layanan tamu, kebersihan lantai (anti-slip / bebas risiko terpeleset), pencahayaan area tunggu, dan penanda arah keluar.",
+      tip: "Evaluasi kesan pertama (visual & keselamatan) bagi tamu eksternal yang berkunjung ke sekolah."
+    }
+  ];
+
+  function selectArea(idx) {
+    document.querySelectorAll('.area-card').forEach((c, i) => c.classList.toggle('active', i === idx));
+    const d = areaData[idx];
+    document.getElementById('areaDetailBox').innerHTML = `
+      <h3 style="color:#0f766e; font-size:1.02rem; margin-bottom:6px;">Target Observasi: ${d.name}</h3>
+      <p style="font-size:0.89rem; margin-bottom:6px;"><strong>Fokus Titik Kritis Audit K3:</strong> ${d.focus}</p>
+      <p style="font-size:0.86rem; background:#f0fdfa; padding:9px 12px; border-radius:8px; border:1px solid #99f6e4; color:#0f766e;"><strong>Tips Junior Auditor:</strong> ${d.tip}</p>
+    `;
+    document.getElementById('auditLocation').value = d.name.replace(" (TU) Sekolah", "").replace(" Sekolah", "");
+    if (idx === 0) document.getElementById('auditLocation').value = "Ruang Tata Usaha";
+    if (idx === 2) document.getElementById('auditLocation').value = "Laboratorium MPLB";
+    if (idx === 3) document.getElementById('auditLocation').value = "Perpustakaan Sekolah";
+    if (idx === 4) document.getElementById('auditLocation').value = "Front Office Sekolah";
+    document.getElementById('badgeTargetArea').textContent = "Zona: " + d.name;
+    syncAuditDashboard();
+  }
+  selectArea(0);
+
+  // Add Extra Audit Row
+  function addAuditRow() {
+    const tbody = document.getElementById('auditTbody');
+    const num = tbody.rows.length + 1;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${num}</td>
+      <td><input type="text" placeholder="Item audit tambahan ke-${num} (misal: Rambu Evakuasi / Kotak P3K)..." /></td>
+      <td>
+        <select class="audit-status" onchange="syncAuditDashboard()">
+          <option value="Ya">[✓] Ya (Patuh)</option>
+          <option value="Tidak" selected>[✕] Tidak (Temuan)</option>
+        </select>
+      </td>
+      <td><input type="text" class="audit-fact" placeholder="Catat fakta lapangan..." /></td>
+      <td><input type="text" class="audit-rec" placeholder="Tuliskan rekomendasi perbaikan..." /></td>
+    `;
+    tbody.appendChild(tr);
+    syncAuditDashboard();
+  }
+
+  // Photo Upload Preview
+  function previewAuditPhotos(event) {
+    const files = event.target.files;
+    const grid1 = document.getElementById('photoGrid');
+    const grid2 = document.getElementById('dashPhotoGrid');
+    const sec2 = document.getElementById('dashPhotoSection');
+    grid1.innerHTML = "";
+    grid2.innerHTML = "";
+    if (files.length > 0) sec2.hidden = false;
+
+    Array.from(files).forEach((file, i) => {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const cardHTML = `<div class="photo-card"><img src="${e.target.result}" alt="Bukti ${i+1}" /><div style="margin-top:4px; font-weight:600;">Bukti Temuan #${i+1}</div></div>`;
+        grid1.innerHTML += cardHTML;
+        grid2.innerHTML += cardHTML;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Sync LKPD 4 to Executive Dashboard
+  function syncAuditDashboard() {
+    const grp = document.getElementById('auditorGroup').value || "Tim Junior K3 Auditor";
+    const loc = document.getElementById('auditLocation').value;
+    const dt = document.getElementById('auditDate').value;
+
+    document.getElementById('badgeTeamName').textContent = grp;
+    document.getElementById('dashSubtitle').textContent = `Lokasi: ${loc} • Auditor: ${grp} • ${dt}`;
+
+    const rows = Array.from(document.getElementById('auditTbody').rows);
+    let yesCount = 0, noCount = 0;
+    let findingsHTML = "";
+
+    rows.forEach((row, idx) => {
+      const itemCell = row.cells[1];
+      const itemName = itemCell.querySelector('input') ? (itemCell.querySelector('input').value || `Item Tambahan #${idx+1}`) : itemCell.innerText;
+      const st = row.cells[2].querySelector('select').value;
+      const fact = row.cells[3].querySelector('input').value || "Belum ada catatan detail.";
+      const rec = row.cells[4].querySelector('input').value || "-";
+
+      if (st === "Ya") {
+        yesCount++;
+        findingsHTML += `<div style="padding:8px 12px; border-left:4px solid #16a34a; background:#f0fdf4; border-radius:6px; margin-bottom:6px;">
+          <strong style="color:#166534;">[PATUH] ${idx+1}. ${itemName}</strong> — Fakta: ${fact}
+        </div>`;
+      } else {
+        noCount++;
+        findingsHTML += `<div style="padding:8px 12px; border-left:4px solid #dc2626; background:#fef2f2; border-radius:6px; margin-bottom:6px;">
+          <strong style="color:#991b1b;">[TEMUAN K3] ${idx+1}. ${itemName}</strong><br>
+          <span>• Fakta Lapangan: ${fact}</span><br>
+          <span style="color:#1e3a8a; font-weight:600;">• Rekomendasi Korektif: ${rec}</span>
+        </div>`;
+      }
+    });
+
+    const total = yesCount + noCount;
+    const pct = total > 0 ? Math.round((yesCount / total) * 100) : 0;
+
+    document.getElementById('kpiScore').textContent = pct + "%";
+    document.getElementById('kpiYes').textContent = yesCount;
+    document.getElementById('kpiNo').textContent = noCount;
+    document.getElementById('barPctLabel').textContent = pct + "%";
+    const bar = document.getElementById('complianceBar');
+    bar.style.width = pct + "%";
+
+    const badge = document.getElementById('kpiBadge');
+    if (pct >= 80) {
+      badge.className = "pill pill-meaningful";
+      badge.textContent = "SANGAT LAYAK / PATUH K3";
+      bar.style.background = "#0f766e";
+    } else if (pct >= 60) {
+      badge.className = "pill pill-joyful";
+      badge.textContent = "PERLU PERBAIKAN MINOR";
+      bar.style.background = "#d97706";
+    } else {
+      badge.className = "pill pill-danger";
+      badge.textContent = "KRITIS — TINDAKAN SEGERA";
+      bar.style.background = "#dc2626";
+    }
+
+    document.getElementById('dashFindingsList').innerHTML = findingsHTML;
+    const concl = document.getElementById('auditConclusion').value;
+    if (concl.trim()) {
+      document.getElementById('dashConclusionText').textContent = concl;
+    }
+  }
+  syncAuditDashboard();
+
+  // Export Audit CSV & TXT
+  function exportAuditCSV() {
+    const rows = [["No", "Item Audit K3", "Status", "Fakta Lapangan", "Tindakan Korektif"]];
+    Array.from(document.getElementById('auditTbody').rows).forEach((row, idx) => {
+      const itemCell = row.cells[1];
+      const itemName = itemCell.querySelector('input') ? itemCell.querySelector('input').value : itemCell.innerText;
+      const st = row.cells[2].querySelector('select').value;
+      const fact = row.cells[3].querySelector('input').value;
+      const rec = row.cells[4].querySelector('input').value;
+      rows.push([idx + 1, itemName, st, fact, rec]);
+    });
+    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "Laporan_Audit_K3_LKPD4_XI_MPLB.csv";
+    a.click();
+  }
+
+  function exportAuditTXT() {
+    const lines = [
+      "LAPORAN EKSEKUTIF AUDIT KEPATUHAN K3 & KELAYAKAN SARPRAS",
+      "==========================================================",
+      "Auditor  : " + (document.getElementById('auditorGroup').value || "-"),
+      "Lokasi   : " + document.getElementById('auditLocation').value,
+      "Tanggal  : " + document.getElementById('auditDate').value,
+      "Skor K3  : " + document.getElementById('kpiScore').textContent + " (" + document.getElementById('kpiBadge').textContent + ")",
+      ""
+    ];
+    Array.from(document.getElementById('auditTbody').rows).forEach((row, idx) => {
+      const itemCell = row.cells[1];
+      const itemName = itemCell.querySelector('input') ? itemCell.querySelector('input').value : itemCell.innerText;
+      const st = row.cells[2].querySelector('select').value;
+      const fact = row.cells[3].querySelector('input').value || "-";
+      const rec = row.cells[4].querySelector('input').value || "-";
+      lines.push(`${idx + 1}. [${st}] ${itemName}`);
+      lines.push(`   - Fakta Lapangan : ${fact}`);
+      lines.push(`   - Rekomendasi    : ${rec}`);
+    });
+    lines.push("", "KESIMPULAN EKSEKUTIF:", document.getElementById('auditConclusion').value || "-");
+
+    const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8;" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "Laporan_Eksekutif_Audit_K3_MPLB.txt";
+    a.click();
+  }
+
+  // Rubric Calculator
+  function calcRubric() {
+    const v1 = Number(document.getElementById('rub1').value);
+    const v2 = Number(document.getElementById('rub2').value);
+    const v3 = Number(document.getElementById('rub3').value);
+    const v4 = Number(document.getElementById('rub4').value);
+    const avg = ((v1 + v2 + v3 + v4) / 4).toFixed(1);
+    let pred = "BARU BERKEMBANG";
+    if (avg >= 90) pred = "MAHIR";
+    else if (avg >= 80) pred = "CAKAP";
+    else if (avg >= 70) pred = "LAYAK";
+    document.getElementById('rubricResult').textContent = `${avg} — Predikat: ${pred}`;
+  }
+</script>
+</body>
+</html>
