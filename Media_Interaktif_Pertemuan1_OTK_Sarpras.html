@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Pembelajaran Interaktif — OTK Sarpras XI MPLB (Pertemuan 1)</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --teal: #0f766e;
+      --teal-soft: #ccfbf1;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* Top Navbar */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #0f766e 100%);
+      color: #fff;
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+    }
+    .header-top {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.3px; }
+    .brand p { font-size: 0.8rem; color: #cbd5e1; }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Navigation Tabs */
+    nav.stepper {
+      max-width: 1180px;
+      margin: 18px auto 0;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .step-btn {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .step-btn span { display: block; font-size: 0.7rem; font-weight: 500; margin-top: 2px; }
+    .step-btn:hover { border-color: var(--primary-light); color: var(--primary); }
+    .step-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(30, 58, 138, 0.25);
+    }
+    .step-btn.active span { color: #dbeafe; }
+
+    /* Main Container */
+    main { max-width: 1180px; margin: 18px auto 40px; padding: 0 16px; }
+    .section-panel { display: none; animation: fadeIn 0.3s ease; }
+    .section-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 18px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+    .card-title { font-size: 1.15rem; font-weight: 700; color: var(--primary); }
+    .pill {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .pill-mindful { background: #e0e7ff; color: #1e40af; }
+    .pill-meaningful { background: var(--teal-soft); color: var(--teal); }
+    .pill-joyful { background: var(--amber-soft); color: var(--amber); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 820px) {
+      nav.stepper { grid-template-columns: 1fr 1fr; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* Mindful Timer Box */
+    .mindful-box {
+      background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+    }
+    .timer-display {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 8px 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn:hover { background: #1d4ed8; }
+    .btn-teal { background: var(--teal); }
+    .btn-teal:hover { background: #115e59; }
+    .btn-outline { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); }
+    .btn-outline:hover { background: #eff6ff; }
+
+    /* Visual Comparison Toggle */
+    .office-box {
+      border-radius: 12px;
+      padding: 18px;
+      border: 2px solid transparent;
+      transition: 0.25s;
+    }
+    .office-bad { background: #fef2f2; border-color: #fecaca; }
+    .office-good { background: #f0fdf4; border-color: #bbf7d0; }
+    .office-box h3 { font-size: 1rem; margin-bottom: 8px; }
+    .office-box ul { padding-left: 18px; font-size: 0.9rem; }
+    .office-box li { margin-bottom: 5px; }
+
+    /* Interactive Flip / Detail Tabs */
+    .reg-card {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 16px;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .reg-card:hover, .reg-card.selected {
+      border-color: var(--teal);
+      background: #f0fdfa;
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.12);
+    }
+    .reg-detail {
+      margin-top: 14px;
+      padding: 16px;
+      background: #fff;
+      border-left: 4px solid var(--teal);
+      border-radius: 8px;
+      border-top: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* Prompt Copy Box */
+    .prompt-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 14px;
+      border-radius: 10px;
+      font-family: Consolas, monospace;
+      font-size: 0.83rem;
+      margin-top: 8px;
+      position: relative;
+    }
+
+    /* LKPD Table */
+    table.lkpd-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    table.lkpd-table th {
+      background: var(--primary);
+      color: #fff;
+      text-align: left;
+      padding: 10px 12px;
+      font-size: 0.85rem;
+    }
+    table.lkpd-table td {
+      border: 1px solid #cbd5e1;
+      padding: 10px;
+      vertical-align: top;
+      font-size: 0.85rem;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 0.85rem;
+      resize: vertical;
+    }
+    textarea:focus, input[type="text"]:focus { outline: none; border-color: var(--primary-light); background: #f8fafc; }
+
+    /* Quiz Styling */
+    .quiz-item { margin-bottom: 16px; padding: 14px; border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc; }
+    .quiz-item p { font-weight: 600; margin-bottom: 8px; font-size: 0.92rem; }
+    .quiz-opt {
+      display: block;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.86rem;
+    }
+    .quiz-opt:hover { background: #eff6ff; border-color: var(--primary-light); }
+    .feedback { margin-top: 8px; font-size: 0.83rem; font-weight: 600; display: none; padding: 8px 10px; border-radius: 6px; }
+    .feedback.ok { background: #dcfce7; color: #166534; display: block; }
+    .feedback.no { background: #fee2e2; color: #991b1b; display: block; }
+
+    .nav-footer { display: flex; justify-content: space-between; margin-top: 16px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="brand">
+      <h1>OTK SARANA & PRASARANA — PERTEMUAN 1</h1>
+      <p>SMK IPTEK AL-IKHWAN • Kelas XI MPLB (Fase F) • Guru: Tarma Suhendar, S.Kom</p>
+    </div>
+    <div class="badges">
+      <span class="badge">Alokasi: 4 × 45 Menit</span>
+      <span class="badge">Model: Inquiry Learning</span>
+      <span class="badge">Deep Learning (3M)</span>
+    </div>
+  </div>
+</header>
+
+<nav class="stepper" role="tablist">
+  <button class="step-btn active" onclick="goTab(0)">1. Pendahuluan<span>Mindful & Apersepsi (25')</span></button>
+  <button class="step-btn" onclick="goTab(1)">2. Eksplorasi Konsep<span>Regulasi Publik vs Swasta</span></button>
+  <button class="step-btn" onclick="goTab(2)">3. Penyelidikan AI<span>Inquiry & Panduan Prompt</span></button>
+  <button class="step-btn" onclick="goTab(3)">4. LKPD Digital 1<span>Komparasi & Analisis</span></button>
+  <button class="step-btn" onclick="goTab(4)">5. Kuis & Refleksi<span>Uji Pemahaman & Exit Ticket</span></button>
+</nav>
+
+<main>
+  <!-- ==================== TAB 1: PENDAHULUAN ==================== -->
+  <section class="section-panel active" id="tab-0">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Tujuan Pembelajaran & Pemahaman Bermakna</h2>
+        <span class="pill pill-mindful">Dimensi: Kewargaan • Penalaran Kritis • Kesehatan</span>
+      </div>
+      <p style="margin-bottom:10px;"><strong>Tujuan Pembelajaran:</strong> Peserta didik mampu menganalisis regulasi, klasifikasi, standar fasilitas, serta prinsip Keselamatan dan Kesehatan Kerja (K3) sarana dan prasarana kantor modern secara kritis.</p>
+      <div style="background:#eff6ff; padding:12px 16px; border-left:4px solid #1e3a8a; border-radius:6px; font-size:0.9rem;">
+        <strong>Esensi Pembelajaran Mendalam:</strong> Pengelolaan sarana dan prasarana kantor bukan sekadar inventarisasi benda mati, melainkan fondasi penciptaan ruang kerja ergonomis, aman, dan berkeselamatan tinggi yang menentukan kesejahteraan fisik pekerja serta efisiensi operasional organisasi modern.
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card mindful-box">
+        <span class="pill pill-mindful">Mindful Connection (2 Menit)</span>
+        <h3 style="margin-top:10px; color:#1e3a8a;">Hening Sejenak & Cek Kesiapan Fisik</h3>
+        <p style="font-size:0.86rem; color:#475569; margin-top:4px;">Tegakkan posisi duduk Anda di kursi lab, letakkan kedua telapak kaki rata di lantai, tarik napas perlahan, dan fokuskan atensi pada pembelajaran hari ini.</p>
+        <div class="timer-display" id="timerDisplay">01:00</div>
+        <div style="display:flex; gap:8px; justify-content:center;">
+          <button class="btn" onclick="startTimer()">Mulai Timer Hening</button>
+          <button class="btn btn-outline" onclick="resetTimer()">Reset</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="pill pill-meaningful">Asesmen Diagnostik Awal</span>
+        <h3 style="margin-top:10px; color:#0f766e;">Cek Kesiapan Cepat Siswa</h3>
+        <p style="font-size:0.86rem; margin:6px 0;">Pilih kondisi yang paling menggambarkan pemahaman awal Anda sebelum mulai:</p>
+        <select id="diagSelect" style="width:100%; padding:9px; border-radius:8px; border:1px solid #cbd5e1; margin-bottom:10px;">
+          <option value="">-- Pilih Jawaban Diagnostik --</option>
+          <option value="A">Saya sudah tahu perbedaan fasilitas ruang pimpinan vs staf & pernah dengar regulasi sarpras.</option>
+          <option value="B">Saya pernah melihat perbedaan ruang kerja, tapi belum tahu ada aturan hukum yang mengaturnya.</option>
+          <option value="C">Saya belum pernah memperhatikan standar fasilitas ruang kantor sama sekali.</option>
+        </select>
+        <button class="btn btn-teal" onclick="checkDiag()">Lihat Rekomendasi Peran Kelompok</button>
+        <p id="diagResult" style="margin-top:10px; font-size:0.85rem; font-weight:600; color:#0f766e;"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Apersepsi Visual: Mengapa Standar Fasilitas Kantor Diatur Negara & Perusahaan?</h2>
+        <span class="pill pill-joyful">Pertanyaan Pemantik</span>
+      </div>
+      <div class="grid-2">
+        <div class="office-box office-bad">
+          <h3>❌ Kantor Konvensional Tanpa Standar Regulasi</h3>
+          <ul>
+            <li>Luas ruang kerja sempit dan tidak proporsional antar jabatan.</li>
+            <li>Kabel listrik & jaringan melintang semrawut di lantai (risiko tersandung & korsleting).</li>
+            <li>Kursi kaku tanpa sandaran pinggang, pencahayaan redup (< 150 Lux).</li>
+            <li>Pengadaan barang mewah tanpa batas berpotensi memboroskan anggaran.</li>
+          </ul>
+        </div>
+        <div class="office-box office-good">
+          <h3>✅ Kantor Modern Berbasis Regulasi Standar</h3>
+          <ul>
+            <li>Luas ruang dan spesifikasi perabot mengacu baku mutu (PermenPAN-RB / SOP GA).</li>
+            <li>Tata ruang terbuka/ergonomis dengan pencahayaan ideal (≥ 300 Lux) & suhu 23–26°C.</li>
+            <li>Dilengkapi APAR, jalur evakuasi jelas, serta <em>breakout area</em> penunjang produktivitas.</li>
+            <li>Transparan, akuntabel, dan mendukung prinsip <em>Green Office</em>.</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:14px; background:#fef3c7; padding:12px 16px; border-radius:10px; border:1px solid #fde68a;">
+        <strong>Pertanyaan Pemantik Diskusi Kelas:</strong> <em>“Mengapa negara dan perusahaan repot-repot mengatur standar luas meja hingga jenis pendingin ruangan?”</em>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <span></span>
+      <button class="btn" onclick="goTab(1)">Lanjut ke Tahap 2: Eksplorasi Konsep →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 2: EKSPLORASI KONSEP ==================== -->
+  <section class="section-panel" id="tab-1">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Tahap 1 Inquiry: Memahami Regulasi Sarpras Publik vs Swasta</h2>
+        <span class="pill pill-mindful">Memahami (Mindful)</span>
+      </div>
+      <p style="font-size:0.9rem; margin-bottom:14px;">Klik masing-masing kartu di bawah ini untuk membedah landasan regulasi pengelolaan sarana dan prasarana kantor:</p>
+
+      <div class="grid-3">
+        <div class="reg-card selected" id="rc-0" onclick="showReg(0)">
+          <span class="pill pill-mindful">Sektor Pemerintah</span>
+          <h3 style="margin-top:8px; font-size:1rem;">Permendagri No. 17/2007 & PermenPAN-RB No. 48/2013</h3>
+          <p style="font-size:0.82rem; color:#475569; margin-top:4px;">Klik untuk melihat fokus aturan dan standar fasilitas instansi pemerintah.</p>
+        </div>
+        <div class="reg-card" id="rc-1" onclick="showReg(1)">
+          <span class="pill pill-meaningful">Sektor Swasta Modern</span>
+          <h3 style="margin-top:8px; font-size:1rem;">SOP General Affairs (GA) & Sertifikasi LEED</h3>
+          <p style="font-size:0.82rem; color:#475569; margin-top:4px;">Klik untuk melihat filosofi tata ruang korporasi modern & <em>Tech Startup</em>.</p>
+        </div>
+        <div class="reg-card" id="rc-2" onclick="showReg(2)">
+          <span class="pill pill-joyful">Standar K3 Perkantoran</span>
+          <h3 style="margin-top:8px; font-size:1rem;">Permenkes No. 48 Tahun 2016</h3>
+          <p style="font-size:0.82rem; color:#475569; margin-top:4px;">Klik untuk melihat parameter wajib keselamatan, suhu, cahaya, dan ergonomi.</p>
+        </div>
+      </div>
+
+      <div class="reg-detail" id="regDetailBox">
+        <h4 style="color:#0f766e; margin-bottom:6px;">Detail Regulasi Sektor Publik / Instansi Pemerintah</h4>
+        <ul style="padding-left:20px; font-size:0.9rem;">
+          <li><strong>Permendagri No. 17 Tahun 2007:</strong> Pedoman teknis pengelolaan Barang Milik Daerah (perencanaan, pengadaan, penggunaan, penatausahaan, hingga penghapusan).</li>
+          <li><strong>PermenPAN-RB No. 48 Tahun 2013:</strong> Mengatur ukuran baku luas ruang kerja berdasarkan jenjang jabatan (Eselon I hingga Staf Pelaksana), jenis perabot standar, serta pembatasan fasilitas mewah guna mencegah pemborosan anggaran negara (APBN/APBD).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="background:linear-gradient(135deg,#0f766e,#1e3a8a); color:#fff;">
+      <h3 style="font-size:1rem; margin-bottom:6px;">💡 Pojok Pengetahuan (Fakta Riset Manajemen Fasilitas Global)</h3>
+      <p style="font-size:0.9rem; color:#e2e8f0;">Lingkungan kerja fisik yang dirancang sesuai regulasi ergonomi dan pencahayaan yang baik terbukti mampu <strong>mendongkrak produktivitas karyawan hingga 20%</strong> serta <strong>memangkas angka absensi akibat gangguan otot-tulang (MSDs) hingga 45% per tahun</strong>.</p>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(0)">← Sebelumnya</button>
+      <button class="btn" onclick="goTab(2)">Lanjut ke Tahap 3: Penyelidikan AI →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 3: PENYELIDIKAN AI ==================== -->
+  <section class="section-panel" id="tab-2">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Tahap 2 & 3 Inquiry: Merumuskan Masalah & Penyelidikan Berbantuan AI</h2>
+        <span class="pill pill-meaningful">Mengaplikasi (Meaningful)</span>
+      </div>
+      <p style="font-size:0.9rem; margin-bottom:12px;">Dalam kelompok kecil (3–4 siswa), gunakan pertanyaan penyelidikan utama berikut dan manfaatkan <strong>AI Tools (Gemini / ChatGPT)</strong> untuk mengumpulkan data komparatif regulasi:</p>
+
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:14px; margin-bottom:14px;">
+        <strong style="color:#1e3a8a;">Rumusan Masalah Penyelidikan Kelompok:</strong>
+        <p style="font-size:0.92rem; margin-top:4px; font-style:italic;">“Faktor apa yang mendasari standarisasi fasilitas gedung kantor dan bagaimana hukum melindungi hak kelayakan sarana prasarana pegawai?”</p>
+      </div>
+
+      <h4 style="font-size:0.95rem; color:#0f766e; margin-bottom:6px;">Bank Prompt Siap Salin untuk Eksplorasi Data (Klik Tombol Salin):</h4>
+      <div class="prompt-box" id="aiPromptText">
+        Bantu saya sebagai siswa SMK MPLB membandingkan standar fasilitas ruang kerja instansi pemerintah menurut PermenPAN-RB Nomor 48 Tahun 2013 dengan standar fasilitas kantor perusahaan teknologi modern (seperti Google, Tokopedia, atau Unilever) dari 3 aspek: (1) Standar luas ruang kerja staf & pimpinan, (2) Konsep tata ruang cubicle vs open space, dan (3) Fasilitas kesejahteraan pegawai (breakout area, pantry, ruang kesehatan). Sajikan dalam poin-poin ringkas beserta tujuan filosofis masing-masing aturan.
+      </div>
+      <div style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+        <button class="btn btn-teal" onclick="copyPrompt()">📋 Salin Prompt ke Clipboard</button>
+        <span id="copyStatus" style="font-size:0.83rem; color:#0f766e; font-weight:600;"></span>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(1)">← Sebelumnya</button>
+      <button class="btn" onclick="goTab(3)">Lanjut ke Tahap 4: LKPD Digital →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 4: LKPD DIGITAL PERTEMUAN 1 ==================== -->
+  <section class="section-panel" id="tab-3">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">LKPD Digital Pertemuan 1: Analisis Regulasi Sarpras Pemerintah vs Swasta</h2>
+        <span class="pill pill-meaningful">Menguji Hipotesis (Meaningful)</span>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:12px;">
+        <div>
+          <label style="font-size:0.82rem; font-weight:700;">Nama Kelompok & Anggota:</label>
+          <input type="text" id="lkpdGroup" placeholder="Contoh: Kelompok 1 — Andi, Budi, Citra, Dina" />
+        </div>
+        <div>
+          <label style="font-size:0.82rem; font-weight:700;">Kelas / Tanggal:</label>
+          <input type="text" id="lkpdClass" value="XI MPLB / Pertemuan 1" />
+        </div>
+      </div>
+
+      <table class="lkpd-table">
+        <thead>
+          <tr>
+            <th style="width:22%;">Aspek Fasilitas</th>
+            <th style="width:39%;">Standar Regulasi Pemerintah<br><small>(PermenPAN-RB No. 48/2013 & Permendagri 17/2007)</small></th>
+            <th style="width:39%;">Standar Fasilitas Kantor Swasta Modern<br><small>(SOP GA Korporasi / Tech Startup)</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Standar Luas Ruang Kerja Pejabat / Staf</strong></td>
+            <td><textarea id="a1_gov" rows="3" placeholder="Tuliskan temuan regulasi pemerintah (misal: pembagian luas berdasarkan eselon & staf)..."></textarea></td>
+            <td><textarea id="a1_priv" rows="3" placeholder="Tuliskan temuan standar kantor swasta modern..."></textarea></td>
+          </tr>
+          <tr>
+            <td><strong>2. Fleksibilitas Tata Ruang</strong><br><small>(Cubicle vs Open Space)</small></td>
+            <td><textarea id="a2_gov" rows="3" placeholder="Tuliskan temuan tata ruang instansi pemerintah..."></textarea></td>
+            <td><textarea id="a2_priv" rows="3" placeholder="Tuliskan temuan tata ruang kolaboratif swasta..."></textarea></td>
+          </tr>
+          <tr>
+            <td><strong>3. Fasilitas Kesejahteraan</strong><br><small>(Breakout area, Cafe, Ruang Laktasi/Kesehatan)</small></td>
+            <td><textarea id="a3_gov" rows="3" placeholder="Tuliskan temuan fasilitas penunjang instansi pemerintah..."></textarea></td>
+            <td><textarea id="a3_priv" rows="3" placeholder="Tuliskan temuan fasilitas kesejahteraan kantor modern..."></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:14px;">
+        <label style="font-size:0.88rem; font-weight:700; color:#1e3a8a;">Ruang Jawaban Analisis Kritis (Sintesis: Mengapa Standar Sarpras Berbeda Namun Tujuannya Sama?):</label>
+        <textarea id="lkpdSintesis" rows="4" style="margin-top:6px;" placeholder="Tuliskan kesimpulan kritis kelompok Anda untuk dipresentasikan di depan kelas..."></textarea>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-teal" onclick="downloadLKPD()">💾 Unduh Hasil LKPD (.txt) untuk Dikumpulkan</button>
+        <button class="btn btn-outline" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(2)">← Sebelumnya</button>
+      <button class="btn" onclick="goTab(4)">Lanjut ke Tahap 5: Kuis & Refleksi →</button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 5: KUIS & REFLEKSI ==================== -->
+  <section class="section-panel" id="tab-4">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Tahap 5 Inquiry: Kuis Interaktif Evaluasi Regulasi Sarpras</h2>
+        <span class="pill pill-joyful">Merefleksi (Joyful)</span>
+      </div>
+
+      <div id="quizContainer"></div>
+      <button class="btn" onclick="gradeQuiz()">Periksa Skor Akhir Kuis</button>
+      <div id="quizScoreBox" style="margin-top:12px; font-weight:700; font-size:1rem;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Penutup: Exit Ticket (1 Kalimat Pemahaman) & Tindak Lanjut</h2>
+        <span class="pill pill-mindful">Refleksi Akhir</span>
+      </div>
+      <p style="font-size:0.88rem; margin-bottom:8px;">Tuliskan <strong>1 kalimat pemahaman bermakna</strong> yang Anda dapatkan tentang hubungan kepatuhan regulasi sarpras dengan efisiensi kerja kantor:</p>
+      <input type="text" id="exitTicket" placeholder="Saya memahami bahwa regulasi sarana dan prasarana kantor penting karena..." />
+      <div style="margin-top:12px; background:#f0fdfa; padding:12px; border-radius:8px; border:1px solid #99f6e4; font-size:0.86rem;">
+        <strong>Tugas Tindak Lanjut Menuju Pertemuan Ke-2:</strong> Amatilah minimal 10 benda sarana dan prasarana di ruang kelas atau rumah Anda untuk diklasifikasikan pada pertemuan berikutnya (<em>Barang Habis Pakai vs Tidak Habis Pakai</em>).
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <button class="btn btn-outline" onclick="goTab(3)">← Sebelumnya</button>
+      <button class="btn btn-teal" onclick="goTab(0)">↺ Kembali ke Awal</button>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Tab Navigation
+  function goTab(index) {
+    document.querySelectorAll('.section-panel').forEach((el, i) => el.classList.toggle('active', i === index));
+    document.querySelectorAll('.step-btn').forEach((btn, i) => btn.classList.toggle('active', i === index));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Mindful Timer
+  let timerSec = 60, timerInterval = null;
+  function updateTimerUI() {
+    const m = String(Math.floor(timerSec / 60)).padStart(2, '0');
+    const s = String(timerSec % 60).padStart(2, '0');
+    document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+  }
+  function startTimer() {
+    if (timerInterval) return;
+    timerInterval = setInterval(() => {
+      if (timerSec > 0) { timerSec--; updateTimerUI(); }
+      else { clearInterval(timerInterval); timerInterval = null; alert("Waktu hening selesai. Mari mulai pembelajaran dengan fokus!"); }
+    }, 1000);
+  }
+  function resetTimer() {
+    clearInterval(timerInterval); timerInterval = null; timerSec = 60; updateTimerUI();
+  }
+
+  // Diagnostic Feedback
+  function checkDiag() {
+    const val = document.getElementById('diagSelect').value;
+    const out = document.getElementById('diagResult');
+    if (val === 'A') out.textContent = "Rekomendasi: Anda siap menjadi Ketua Investigasi Kelompok dalam membedah pasal regulasi!";
+    else if (val === 'B') out.textContent = "Rekomendasi: Anda akan berperan sebagai Analis Komparasi Data Publik vs Swasta.";
+    else if (val === 'C') out.textContent = "Rekomendasi: Amati kartu perbandingan visual di bawah terlebih dahulu sebagai panduan awal.";
+    else out.textContent = "Silakan pilih salah satu opsi terlebih dahulu.";
+  }
+
+  // Regulation Explorer Cards
+  const regData = [
+    {
+      title: "Detail Regulasi Sektor Publik / Instansi Pemerintah",
+      items: [
+        "<strong>Permendagri No. 17 Tahun 2007:</strong> Pedoman teknis pengelolaan Barang Milik Daerah mulai dari perencanaan kebutuhan hingga penghapusan aset.",
+        "<strong>PermenPAN-RB No. 48 Tahun 2013:</strong> Mengatur standar luas ruang kerja pejabat hingga staf pelaksana, jenis perabot standar, serta pembatasan fasilitas mewah agar anggaran negara efisien dan akuntabel."
+      ]
+    },
+    {
+      title: "Detail Standar Fasilitas Sektor Bisnis Swasta Modern",
+      items: [
+        "<strong>SOP General Affairs (GA):</strong> Disusun internal korporasi agar fasilitas kerja fleksibel (<em>open space / agile workspace</em>) dan mendukung kolaborasi tim lintas divisi.",
+        "<strong>Sertifikasi LEED & Green Office:</strong> Banyak perusahaan modern mengadopsi standar bangunan hijau hemat energi, pencahayaan alami, dan area relaksasi untuk menjaga retensi & kesehatan mental talenta."
+      ]
+    },
+    {
+      title: "Detail Standar K3 Perkantoran (Permenkes No. 48 Tahun 2016)",
+      items: [
+        "<strong>Kualitas Fisik Ruang:</strong> Suhu kerja ideal 23°C – 26°C, kelembaban 40% – 60%, dan pencahayaan administrasi komputer minimal 300 Lux tanpa silau.",
+        "<strong>Keselamatan & Ergonomi:</strong> Wajib tersedia jalur evakuasi bebas hambatan, APAR tipe CO2/Clean Agent, penutup kabel lantai (<em>cable trunking</em>), serta kursi dengan penyangga pinggang (<em>lumbar support</em>)."
+      ]
+    }
+  ];
+  function showReg(idx) {
+    document.querySelectorAll('.reg-card').forEach((c, i) => c.classList.toggle('selected', i === idx));
+    const box = document.getElementById('regDetailBox');
+    box.innerHTML = `<h4 style="color:#0f766e; margin-bottom:6px;">${regData[idx].title}</h4><ul style="padding-left:20px; font-size:0.9rem;">${regData[idx].items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+  }
+
+  // Copy Prompt
+  function copyPrompt() {
+    const text = document.getElementById('aiPromptText').innerText.trim();
+    navigator.clipboard.writeText(text).then(() => {
+      document.getElementById('copyStatus').textContent = "✓ Prompt berhasil disalin! Silakan tempel di Gemini / ChatGPT.";
+    });
+  }
+
+  // Download LKPD
+  function downloadLKPD() {
+    const content = [
+      "LKPD DIGITAL PERTEMUAN 1 — OTK SARANA DAN PRASARANA (XI MPLB)",
+      "==============================================================",
+      "Kelompok : " + (document.getElementById('lkpdGroup').value || "-"),
+      "Kelas    : " + (document.getElementById('lkpdClass').value || "-"),
+      "",
+      "1. STANDAR LUAS RUANG KERJA PEJABAT / STAF",
+      "   - Regulasi Pemerintah : " + (document.getElementById('a1_gov').value || "-"),
+      "   - Kantor Swasta Modern: " + (document.getElementById('a1_priv').value || "-"),
+      "",
+      "2. FLEKSIBILITAS TATA RUANG (CUBICLE VS OPEN SPACE)",
+      "   - Regulasi Pemerintah : " + (document.getElementById('a2_gov').value || "-"),
+      "   - Kantor Swasta Modern: " + (document.getElementById('a2_priv').value || "-"),
+      "",
+      "3. FASILITAS KESEJAHTERAAN (BREAKOUT AREA, CAFE, DLL)",
+      "   - Regulasi Pemerintah : " + (document.getElementById('a3_gov').value || "-"),
+      "   - Kantor Swasta Modern: " + (document.getElementById('a3_priv').value || "-"),
+      "",
+      "ANALISIS KRITIS & SINTESIS KELOMPOK:",
+      document.getElementById('lkpdSintesis').value || "-"
+    ].join("\n");
+
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "Hasil_LKPD_Pertemuan1_OTK_Sarpras.txt";
+    a.click();
+  }
+
+  // Interactive Quiz
+  const questions = [
+    {
+      q: "1. Peraturan yang secara spesifik mengatur standar sarana dan prasarana kantor pada instansi pemerintah agar tidak terjadi pemborosan anggaran adalah...",
+      opts: ["PermenPAN-RB Nomor 48 Tahun 2013", "UU Ketenagakerjaan Nomor 13 Tahun 2003", "Permendikbud Nomor 20 Tahun 2016", "Perpres Nomor 12 Tahun 2021"],
+      ans: 0,
+      exp: "Tepat! PermenPAN-RB No. 48 Tahun 2013 menetapkan ukuran baku ruang kerja dan standar fasilitas kantor instansi pemerintah."
+    },
+    {
+      q: "2. Perbedaan mendasar antara 'Sarana' dan 'Prasarana' perkantoran adalah...",
+      opts: [
+        "Sarana berupa gedung kantor, sedangkan prasarana berupa alat tulis kantor",
+        "Sarana digunakan langsung dalam proses kerja (komputer, meja), sedangkan prasarana menunjang secara tidak langsung (gedung, jaringan listrik, HVAC)",
+        "Sarana hanya ada di perusahaan swasta, sedangkan prasarana hanya di instansi pemerintah",
+        "Sarana selalu habis pakai, sedangkan prasarana selalu tidak habis pakai"
+      ],
+      ans: 1,
+      exp: "Benar! Sarana adalah alat langsung operasional administrasi, sedangkan prasarana adalah penunjang dasar terselenggaranya kerja."
+    },
+    {
+      q: "3. Mengapa perusahaan teknologi modern (seperti Google atau Tokopedia) banyak menerapkan konsep Open Space dan Breakout Area pada regulasi SOP General Affairs mereka?",
+      opts: [
+        "Karena dilarang menggunakan sekat ruangan oleh pemerintah",
+        "Untuk menghemat pembelian komputer bagi karyawan",
+        "Untuk mendorong kolaborasi cepat, fleksibilitas kerja, dan menjaga kesehatan mental/produktivitas talenta",
+        "Agar pimpinan mudah mengawasi karyawan setiap detik"
+      ],
+      ans: 2,
+      exp: "Tepat! Standar fasilitas swasta modern berorientasi pada kelincahan kolaborasi, kenyamanan psikologis, dan daya tarik talenta."
+    },
+    {
+      q: "4. Berdasarkan Permenkes No. 48 Tahun 2016, tingkat pencahayaan minimal untuk ruang kerja administrasi dan komputer yang aman bagi mata adalah...",
+      opts: ["50 Lux", "100 Lux", "300 Lux", "1.000 Lux"],
+      ans: 2,
+      exp: "Benar! Pencahayaan minimal ruang kerja perkantoran adalah 300 Lux tanpa menimbulkan silau pantulan (glare)."
+    }
+  ];
+
+  const qContainer = document.getElementById('quizContainer');
+  questions.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-item';
+    div.innerHTML = `<p>${item.q}</p>` + item.opts.map((opt, oIdx) =>
+      `<label class="quiz-opt"><input type="radio" name="q${idx}" value="${oIdx}"> ${opt}</label>`
+    ).join('') + `<div class="feedback" id="fb${idx}"></div>`;
+    qContainer.appendChild(div);
+  });
+
+  function gradeQuiz() {
+    let score = 0;
+    questions.forEach((item, idx) => {
+      const chosen = document.querySelector(`input[name="q${idx}"]:checked`);
+      const fb = document.getElementById(`fb${idx}`);
+      if (chosen && Number(chosen.value) === item.ans) {
+        score++;
+        fb.className = 'feedback ok';
+        fb.textContent = "✓ Benar! " + item.exp;
+      } else {
+        fb.className = 'feedback no';
+        fb.textContent = "✗ Kurang tepat. " + item.exp;
+      }
+    });
+    const finalScore = Math.round((score / questions.length) * 100);
+    document.getElementById('quizScoreBox').textContent = `Skor Anda: ${finalScore} / 100 (${score} dari ${questions.length} soal benar)`;
+  }
+</script>
+</body>
+</html>
