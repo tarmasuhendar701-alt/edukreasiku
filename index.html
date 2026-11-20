@@ -3,59 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Media Pembelajaran - Edukreasiku</title>
+    <title>Portal Pembelajaran Interaktif - Edukreasiku</title>
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 20px;
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
         }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
-        .menu-list {
-            list-style: none;
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
             padding: 0;
         }
-        .menu-list li {
-            margin-bottom: 15px;
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
         }
-        .menu-list a {
-            display: block;
-            padding: 15px 20px;
+
+        /* Header Hero */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            padding: 50px 20px 65px;
+            text-align: center;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.2);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1rem;
+            color: #dbeafe;
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+
+        /* Kotak Pencarian */
+        .search-wrapper {
+            max-width: 540px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px 15px 48px;
+            border-radius: 50px;
+            border: none;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-main);
             background-color: #ffffff;
-            color: #0366d6;
-            text-decoration: none;
-            border-radius: 8px;
-            border: 1px solid #e1e4e8;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+            outline: none;
+            transition: box-shadow 0.2s ease;
         }
-        .menu-list a:hover {
-            background-color: #0366d6;
-            color: #ffffff;
-            transform: translateY(-2px);
+
+        .search-input:focus {
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.35);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        /* Container Utama */
+        .container {
+            max-width: 960px;
+            margin: -25px auto 50px;
+            padding: 0 20px;
+        }
+
+        /* Bagian Kategori */
+        .category-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .category-badge {
+            background-color: #eff6ff;
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        /* Grid Kartu Materi */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 20px -8px rgba(37, 99, 235, 0.15);
+        }
+
+        .card-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            padding-top: 12px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .card:hover .card-footer span {
+            transform: translateX(4px);
+            transition: transform 0.2s ease;
+        }
+
+        /* Pesan Jika Tidak Ditemukan */
+        .empty-state {
+            display: none;
+            text-align: center;
+            background: white;
+            padding: 40px 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding-bottom: 30px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.5rem; }
+            .category-section { padding: 18px; }
         }
     </style>
 </head>
 <body>
 
-    <h1>Daftar Media Interaktif & Materi</h1>
+    <header>
+        <h1>Portal Media Pembelajaran</h1>
+        <p>Pilih mata pelajaran atau cari materi interaktif di bawah ini untuk mulai belajar.</p>
+        
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="search-input" placeholder="Cari judul materi, pertemuan, atau mata pelajaran...">
+        </div>
+    </header>
 
-    <ul class="menu-list">
-        <li><a href="Media_Interaktif_Pertemuan1_OTK_Sarpras.html">Media Interaktif - Pertemuan 1 (OTK Sarpras)</a></li>
-        <li><a href="Media_Interaktif_Pertemuan2_OTK_Sarpras.html">Media Interaktif - Pertemuan 2 (OTK Sarpras)</a></li>
-        <li><a href="Media_Interaktif_Pertemuan3_OTK_Sarpras.html">Media Interaktif - Pertemuan 3 (OTK Sarpras)</a></li>
-        <li><a href="Media_Interaktif_Pertemuan4_OTK_Sarpras.html">Media Interaktif - Pertemuan 4 (OTK Sarpras)</a></li>
-        <li><a href="administrasi-keuangan-ximplb.html">Administrasi Keuangan - XI MPLB</a></li>
-        <li><a href="tka_dashboard.html">TKA Dashboard</a></li>
-    </ul>
+    <div class="container">
 
-</body>
-</html>
+        <!-- KATEGORI 1: OTK SARPRAS -->
+        <section class="category-section">
+            <div class="category-header">
+                <span class="category-badge">📁 OTK Sarana & Prasarana</span>
+            </div>
+            <div class="card-grid">
+                <a href="Media_Interaktif_Pertemuan1_OTK_Sarpras.html" class="card">
+                    <div>
+                        <span class="card-tag">Pertemuan 1</span>
+                        <div class="card-title">Media Interaktif OTK Sarpras</div>
+                    </div>
+                    <div class="card-footer">Buka Materi <span>&rarr;</span></div>
+                </a>
+
+                <a href="Media_Interaktif_Pertemuan2_OTK_Sarpras.html" class="card">
+                    <div>
+                        <span class="card-tag">Pertemuan 2</span>
+                        <div class="card-title">Media Interaktif OTK Sarpras</div>
+                    </div>
+                    <div class="card-footer">Buka Materi <span>&rarr;</span></div>
+                </a>
+
+                <a href="Media_Interaktif_Pertemuan3_OTK_Sarpras.html" class="card">
+                    <div>
+                        <span class="card-tag">Pertemuan 3</span>
+                        <div class="card-title">Media Interaktif OTK Sarpras</div>
+                    </div>
+                    <div class="card-footer">Buka Materi <span>&rarr;</span></div>
+                </a>
+
+                <a href="Media_Interaktif_Pertemuan4_OTK_Sarpras.html" class="card">
+                    <div>
+                        <span class="card-tag">Pertemuan 4</span>
+                        <div class="card-title">Media Interaktif OTK Sarpras</div>
+                    </div>
+                    <div class="card-footer">Buka Materi <span>&rarr;</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- KATEGORI 2: ADMINISTRASI KEUANGAN -->
+        <section class="category-section">
+            <div class="category-header">
+                <span class="category-badge">💼 Administrasi Keuangan</span>
+            </div>
+            <div class="card-grid">
+                <a href="administrasi-keuangan-ximplb.html" class="card">
+                    <div>
+                        <span class="card-tag">Kelas XI MPLB</span>
+                        <div class="card-title">Materi Administrasi Keuangan</div>
+                    </div>
+                    <div class="card-footer">Buka Materi <span>&rarr;</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- KATEGORI 3: EVALUASI / DASHBOARD -->
+        <section class="category-section">
+            <div class="category-header">
+                <span class="category-badge">📊 Evaluasi & Dashboard</span>
+            </div>
+            <div class="card-grid">
+                <a href="tka_dashboard.html" class="card">
+                    <div>
+                        <span class="card-tag">Dashboard</span>
+                        <div class="card-title">TKA Dashboard</div>
+                    </div>
+                    <div class="card-footer">Buka Halaman <span>&rarr;</span></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- PESAN JIKA PENCARIAN KOSONG -->
+        <div id="emptyState" class="empty-state">
+            <h3>Materi tidak ditemukan</h3>
+            <p>Coba gunakan kata kunci lain seperti "Pertemuan", "Sarpras", atau "Keuangan".</p>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Edukreasiku &bull; Media Pembelajaran Interaktif
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const sections = document.querySelectorAll('.category-section');
