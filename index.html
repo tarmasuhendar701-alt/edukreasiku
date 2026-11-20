@@ -96,6 +96,44 @@
             padding: 0 20px;
         }
 
+        /* Tombol Filter Kategori */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            background: var(--card-bg);
+            padding: 14px 18px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-btn {
+            background-color: #f1f5f9;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 4px 10px -2px rgba(37, 99, 235, 0.4);
+        }
+
         /* Bagian Kategori */
         .category-section {
             background: var(--card-bg);
@@ -203,6 +241,8 @@
         @media (max-width: 600px) {
             header h1 { font-size: 1.5rem; }
             .category-section { padding: 18px; }
+            .filter-bar { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
+            .filter-btn { white-space: nowrap; }
         }
     </style>
 </head>
@@ -210,7 +250,7 @@
 
     <header>
         <h1>Portal Media Pembelajaran</h1>
-        <p>Pilih mata pelajaran atau cari materi interaktif di bawah ini untuk mulai belajar.</p>
+        <p>Pilih kategori mata pelajaran atau cari materi interaktif di bawah ini untuk mulai belajar.</p>
         
         <div class="search-wrapper">
             <span class="search-icon">🔍</span>
@@ -220,8 +260,16 @@
 
     <div class="container">
 
+        <!-- TOMBOL FILTER KATEGORI -->
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">Semua Materi</button>
+            <button class="filter-btn" data-filter="sarpras">📁 OTK Sarpras</button>
+            <button class="filter-btn" data-filter="keuangan">💼 Administrasi Keuangan</button>
+            <button class="filter-btn" data-filter="dashboard">📊 Evaluasi & Dashboard</button>
+        </div>
+
         <!-- KATEGORI 1: OTK SARPRAS -->
-        <section class="category-section">
+        <section class="category-section" data-category="sarpras">
             <div class="category-header">
                 <span class="category-badge">📁 OTK Sarana & Prasarana</span>
             </div>
@@ -261,49 +309,5 @@
         </section>
 
         <!-- KATEGORI 2: ADMINISTRASI KEUANGAN -->
-        <section class="category-section">
+        <section class="category-section" data-category="keuangan">
             <div class="category-header">
-                <span class="category-badge">💼 Administrasi Keuangan</span>
-            </div>
-            <div class="card-grid">
-                <a href="administrasi-keuangan-ximplb.html" class="card">
-                    <div>
-                        <span class="card-tag">Kelas XI MPLB</span>
-                        <div class="card-title">Materi Administrasi Keuangan</div>
-                    </div>
-                    <div class="card-footer">Buka Materi <span>&rarr;</span></div>
-                </a>
-            </div>
-        </section>
-
-        <!-- KATEGORI 3: EVALUASI / DASHBOARD -->
-        <section class="category-section">
-            <div class="category-header">
-                <span class="category-badge">📊 Evaluasi & Dashboard</span>
-            </div>
-            <div class="card-grid">
-                <a href="tka_dashboard.html" class="card">
-                    <div>
-                        <span class="card-tag">Dashboard</span>
-                        <div class="card-title">TKA Dashboard</div>
-                    </div>
-                    <div class="card-footer">Buka Halaman <span>&rarr;</span></div>
-                </a>
-            </div>
-        </section>
-
-        <!-- PESAN JIKA PENCARIAN KOSONG -->
-        <div id="emptyState" class="empty-state">
-            <h3>Materi tidak ditemukan</h3>
-            <p>Coba gunakan kata kunci lain seperti "Pertemuan", "Sarpras", atau "Keuangan".</p>
-        </div>
-
-    </div>
-
-    <footer>
-        &copy; 2026 Edukreasiku &bull; Media Pembelajaran Interaktif
-    </footer>
-
-    <script>
-        const searchInput = document.getElementById('searchInput');
-        const sections = document.querySelectorAll('.category-section');
